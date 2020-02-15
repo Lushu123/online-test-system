@@ -1,0 +1,22 @@
+.login-form {
+    width: 340px;
+    transform: translate(-50%,-50%);
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    padding: 40px 20px 20px 20px;
+    border: 1px solid rgba(0,0,0,.25);
+    background-color: white;
+    border-radius: 10px;
+}
+.login-form-register {
+    float: right;
+}
+.login-form-button {
+    width: 100%;
+}
+.login-form-header{
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+}

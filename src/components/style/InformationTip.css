@@ -1,0 +1,32 @@
+.information-tip .ant-card-head-title{
+    padding: 16px 0 0 0 ;
+}
+.information-tip .ant-card-body{
+    height: 272px;
+    overflow: auto;
+
+}
+.information-tip .ant-card-body::-webkit-scrollbar{
+    width: 0;
+}
+.information-tip .is-choice{
+    background-color: #2db7f5;
+}
+.information-tip.ant-anchor-wrapper,
+.information-tip .ant-anchor {
+    padding-left: 0;
+}
+.information-tip .ant-anchor-link{
+    padding: 0;
+}
+.information-tip .ant-anchor-wrapper{
+    overflow: visible;
+}
+.information-tip .ant-anchor-ink-ball{
+    display: none;
+}
+.information-tip .ant-anchor-link-active > .ant-anchor-link-title,
+.information-tip .ant-anchor-link-title:hover{
+    color: black;
+}
+

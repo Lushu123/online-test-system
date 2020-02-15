@@ -1,0 +1,29 @@
+.choice-question .ant-radio-wrapper{
+    white-space: normal;
+    word-break: break-all;
+}
+.choice-question .ant-radio-wrapper:hover{
+    background-color: #F0F2F5;
+}
+.choice-question .ant-card-head-title{
+    overflow: visible;
+    white-space: normal;
+    word-break: break-all;
+    padding: 16px 0 0 0 ;
+}
+.choice-question .ant-card-body{
+    padding: 5px 0 5px 0;
+}
+
+.choice-question .question-number{
+    background-color: #2db7f5;
+    position: absolute;
+    left: -27px;
+    top: 1px;
+    border-radius: 100%;
+    width: 23px;
+    height: 23px;
+    font-size: 12px;
+    text-align: center;
+    color: white;
+}

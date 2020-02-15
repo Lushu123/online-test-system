@@ -1,0 +1,23 @@
+.test-paper-header{
+    background-color: white;
+    padding: 0 15px;
+}
+.test-paper-header .ant-descriptions-title{
+    text-align: center;
+}
+
+
+.test-paper-main{
+    margin: 20px 0;
+}
+.test-paper-content{
+
+}
+.test-paper-content-sider{
+}
+.test-paper-list{
+    background-color: white;
+    padding: 0 15px;
+}
+
+

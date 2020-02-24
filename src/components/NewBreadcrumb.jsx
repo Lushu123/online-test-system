@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link }from 'react-router-dom';
 import { Breadcrumb  } from 'antd';
+import TestPaperQuestionEditor from "../pages/admin/TestPaperQuestionEditor"
 
 //具体导航的名称
 const breadcrumbNameMap = {
@@ -8,10 +9,10 @@ const breadcrumbNameMap = {
     '/adminMain/test':'考卷管理',
     '/adminMain/test/testPaperEditor':'考卷编辑',
     '/adminMain/test/addTestPaper':'新增考卷',
-    '/adminMain/test/addQuestionToTestPaper':'添加考题',
+    '/adminMain/test/testPaperQuestionEditor':'添加考题',
     '/adminMain/question':'题库管理',
     '/adminMain/question/questionEditor':'题目编辑',
-    '/adminMain/question/personalCenter':'个人中心',
+    '/adminMain/question/addQuestion':'新增考题',
 }
 export default class NewBreadcrumb extends React.Component {
     constructor(props) {

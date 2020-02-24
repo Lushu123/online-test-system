@@ -1,7 +1,5 @@
 import React,{Component} from 'react'
 import {Table, Divider, Tag, Layout,Button} from 'antd'
-
-import TestPaperEditorPanel from "../../components/admin/TestPaperEditorPanel"
 import './style/testPaperEditor.css'
 
 const data = [];
@@ -25,42 +23,68 @@ export default class TestPaperEditor extends Component{
                 title: '试卷名',
                 dataIndex: 'name',
                 key: 'name',
+                align:'center',
             },
             {
                 title: '考试时长',
                 dataIndex: 'time',
                 key: 'time',
+                align:'center',
             },
             {
                 title: '考试时间',
                 dataIndex: 'date',
                 key: 'date',
+                align:'center',
             },
             {
                 title: '总分数',
                 key: 'score',
                 dataIndex: 'score',
+                align:'center',
             },
             {
                 title: '总题数',
                 key: 'questionNum',
                 dataIndex: 'questionNum',
+                align:'center',
             },
             {
                 title: '操作',
-                dataIndex: '',
                 key: 'x',
+                align:'center',
                 render: (text, record, index) => (
-                    <Button.Group>
-                        <Button type="danger" onClick={() => this.onChange(text)}>删除</Button>
-                        <Button type="primary">修改</Button>
-                    </Button.Group>
+                    <div>
+                        <Button.Group>
+                            <Button size="small" type="danger" onClick={() => this.deleteTestPaper(text)}>删除</Button>
+                            <Button size="small" type="primary" onClick={() => this.updateTestPaper(text)}>修改</Button>
+                        </Button.Group>
+                        <Button.Group style={{marginLeft:5}}>
+                            <Button size="small" type="primary">发布</Button>
+                            <Button size="small" type="danger">撤回</Button>
+                        </Button.Group>
+                        <Button size="small" style={{marginLeft:5}} onClick={() => this.addQuestion({id:text.key,name:text.name})}>
+                            考题编辑
+                        </Button>
+                    </div>
+
                 ),
             }
         ];
     }
+    addQuestion = (params) =>{
+        this.props.history.push({
+            pathname: `/adminMain/test/testPaperQuestionEditor/${params.name}/${params.id}`,
+        })
+    }
+    updateTestPaper = (state) =>{
+        this.props.history.push({
+            pathname: `/adminMain/test/updateTestPaper`,
+            state
+        })
+    }
 
-    onChange = (text) => {
+    deleteTestPaper = (text) => {
         console.log(text);
 
 }
@@ -74,10 +98,10 @@ export default class TestPaperEditor extends Component{
                         pagination={{ pageSize: 7 }}
                         expandedRowRender={record => <p style={{ margin: 0 }}>{record.describe}</p>}
                     />
-
-                    {/*<TestPaperEditorPanel curTestPaper={curTestPaper}/>*/}
              </>
 
         )
     }
 }
+//考卷多个操作的入口
+//1、考卷的删除；2、考卷基本信息的修改；3、考卷发布（考生界面可见）；4、考卷撤回（考生界面不可见）；5、考卷题库编辑

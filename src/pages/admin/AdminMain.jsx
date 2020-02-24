@@ -2,12 +2,13 @@ import React,{Component} from 'react'
 import {Route,Switch,Redirect} from 'react-router-dom'
 import {Icon, Layout, Menu,Input ,Breadcrumb} from "antd"
 
-import AddQuestionToTestPaper from "./AddQuestionToTestPaper"
+import TestPaperQuestionEditor from "./TestPaperQuestionEditor"
 import AddTestPaper from "./AddTestPaper"
-import PersonalCenter from "./PersonalCenter"
+import AddQuestion from "./AddQuestion"
 import QuestionEditor from "./QuestionEditor"
 import TestPaperEditor from "./TestPaperEditor"
 import NewBreadcrumb from "../../components/NewBreadcrumb"
+import UpdateTestPaper from "./UpdateTestPaper"
 import './style/adminMain.css'
 const { Item,SubMenu  } = Menu;
 const { Footer,Sider,Content,Header } = Layout;
@@ -19,7 +20,6 @@ const navArr = [
         sunMenu:[
             {key:'/adminMain/test/testPaperEditor',icon:'read',title:'考卷编辑'},
             {key:'/adminMain/test/addTestPaper',icon:'solution',title:'新增考卷'},
-            {key:'/adminMain/test/addQuestionToTestPaper',icon:'plus-circle',title:'添加考题'},
          ]
     },
     {
@@ -27,7 +27,7 @@ const navArr = [
         key:'question',
         sunMenu:[
             {key:'/adminMain/question/questionEditor',icon:'search',title:'题目编辑'},
-            {key:'/adminMain/question/personalCenter',icon:'user',title:'个人中心'},
+            {key:'/adminMain/question/addQuestion',icon:'user',title:'新增考题'},
         ]
     }
 
@@ -35,9 +35,10 @@ const navArr = [
 const routerArr = [
     {path:'/adminMain/test/testPaperEditor',component:TestPaperEditor},
     {path:'/adminMain/test/addTestPaper',component:AddTestPaper},
-    {path:'/adminMain/test/addQuestionToTestPaper',component:AddQuestionToTestPaper},
+    {path:'/adminMain/test/updateTestPaper',component:UpdateTestPaper},
+    {path:'/adminMain/test/testPaperQuestionEditor/:name/:id',component:TestPaperQuestionEditor},
     {path:'/adminMain/question/questionEditor',component:QuestionEditor},
-    {path:'/adminMain/question/personalCenter',component:PersonalCenter},
+    {path:'/adminMain/question/addQuestion',component:AddQuestion},
 ]
 export default class AdminMain extends Component{
     state = {
@@ -78,7 +79,14 @@ export default class AdminMain extends Component{
                             </Item>
                             {
                                 navArr.map(subNav => (
-                                    <SubMenu key={subNav.key} title={subNav.name}>
+                                    <SubMenu
+                                        key={subNav.key}
+                                        title={
+                                            <span>
+                                                <Icon type="mail" />
+                                                <span>{subNav.name}</span>
+                                            </span>
+                                        }>
                                         {
                                             subNav.sunMenu.map(nav => (
                                                 <Item key={nav.key} >
@@ -101,6 +109,7 @@ export default class AdminMain extends Component{
                             margin: '0 16px',
                             background: '#fff',
                             minHeight: 280,
+
                         }}
                         >
                             <Switch>
@@ -125,3 +134,4 @@ export default class AdminMain extends Component{
         )
     }
 }
+//后台系统控制中心（路由跳转）

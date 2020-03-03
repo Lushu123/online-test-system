@@ -34,7 +34,7 @@ class QuestionForm extends Component{
                 <Row>
                     <Col span={22} offset={1}>
                         <Item labelAlign={'left'} label={'题干'} labelCol={{ span: 2}} wrapperCol={{ span: 22}}>
-                            {getFieldDecorator('questionName', {
+                            {getFieldDecorator('questionStem', {
                                 rules: [{ required: true, message: '请输入题干！' }],
                             })(
                                 <Input allowClear={true}/>

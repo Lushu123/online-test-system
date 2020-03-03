@@ -1,6 +1,6 @@
 import React,{Component} from 'react'
 import {Route,Switch,Redirect} from 'react-router-dom'
-import {Icon, Layout, Menu,Input ,Breadcrumb} from "antd"
+import {Icon, Layout, Menu, Input, Breadcrumb, Avatar, Popover, Button} from "antd"
 
 import TestPaperQuestionEditor from "./TestPaperQuestionEditor"
 import AddTestPaper from "./AddTestPaper"
@@ -9,6 +9,7 @@ import QuestionEditor from "./QuestionEditor"
 import TestPaperEditor from "./TestPaperEditor"
 import NewBreadcrumb from "../../components/NewBreadcrumb"
 import UpdateTestPaper from "./UpdateTestPaper"
+import Home from "./Home"
 import './style/adminMain.css'
 const { Item,SubMenu  } = Menu;
 const { Footer,Sider,Content,Header } = Layout;
@@ -39,11 +40,13 @@ const routerArr = [
     {path:'/adminMain/test/testPaperQuestionEditor/:name/:id',component:TestPaperQuestionEditor},
     {path:'/adminMain/question/questionEditor',component:QuestionEditor},
     {path:'/adminMain/question/addQuestion',component:AddQuestion},
+    {path:'/adminMain/home',component:Home},
 ]
 export default class AdminMain extends Component{
     state = {
-        current: '/adminMain/test/testPaperEditor',
+        current: '/adminMain/home',
         collapsed: false,
+        mainWidth: 200
     };
 
     componentDidMount() {
@@ -59,21 +62,57 @@ export default class AdminMain extends Component{
     };
     onCollapse = collapsed => {
         console.log(collapsed);
-        this.setState({ collapsed });
+        this.setState({ collapsed});
+        if(collapsed){
+            this.setState({mainWidth:80});
+        }else {
+            this.setState({mainWidth:200});
+        }
+
     };
     render() {
-        const {current} = this.state
+        const {current,mainWidth} = this.state
         return(
             <Layout style={{ minHeight: '100vh' }}>
-                <Header style={{color:'white',height:50}}>首页</Header>
-                <Layout>
-                    <Sider theme={'light'}   collapsible collapsed={this.state.collapsed} onCollapse={this.onCollapse}>
+                <Header style={{color:'white',position:'fixed',top:0,left:0,right:0}}>
+                    <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+                        <span style={{fontWeight:'bold',fontSize:16}}>线上考试后台管理系统</span>
+                        <Popover
+                            placement="bottomRight"
+                            title={<div style={{textAlign: 'center'}}>QingYuanO</div>}
+                            content={
+                                <div>
+                                    <Button block type={'link'}>注销账号</Button>
+                                    <Button block type={'link'}>修改密码</Button>
+                                </div>
+
+                            }
+                            trigger="click">
+                            <Avatar icon="user" style={{cursor:'pointer' }}/>
+                        </Popover>
+
+                    </div>
+                </Header>
+                <Layout style={{marginTop:61}}>
+                    <Sider
+                        collapsible
+                        collapsed={this.state.collapsed}
+                        onCollapse={this.onCollapse}
+                        style={{
+                            position: 'fixed',
+                            left: 0,
+                            overflow: 'auto',
+                            height: '100vh',
+                            zIndex:10
+                        }}
+                    >
                         <Menu
                             onClick={this.handleClick}
                             selectedKeys={[this.state.current]}
                             mode="inline"
+                            theme="dark"
                         >
-                            <Item key={'home'}>
+                            <Item key={'/adminMain/home'}>
                                 <Icon type={'home'} />
                                 <span>{'首页'}</span>
                             </Item>
@@ -96,21 +135,20 @@ export default class AdminMain extends Component{
                                             ))
                                         }
                                     </SubMenu>
-
                                 ))
                             }
                         </Menu>
                     </Sider>
-                    <Layout>
+                    <Layout style={{marginLeft:mainWidth}}>
                         <Header style={{backgroundColor:'#F0F2F5',padding:16,height:'fit-content'}}>
                             <NewBreadcrumb pathname={current}/>
                         </Header>
-                        <Content   style={{
-                            margin: '0 16px',
-                            background: '#fff',
-                            minHeight: 280,
-
-                        }}
+                        <Content
+                            style={{
+                                margin: '0 16px',
+                                background: '#fff',
+                                minHeight: 280,
+                            }}
                         >
                             <Switch>
                                 {
@@ -128,8 +166,6 @@ export default class AdminMain extends Component{
                         </Footer>
                     </Layout>
                 </Layout>
-
-
             </Layout>
         )
     }

@@ -53,7 +53,7 @@ class AddTestPaper extends Component{
                     )}
                 </Item>
                 <Item label={'考试时长'} {...formItemLayout}>
-                    {getFieldDecorator('time', {
+                    {getFieldDecorator('duration', {
                         rules: [{ required: true, message: '请输入考试时长！' }],
                         initialValue:type === 'update' ? this.props.updateData.time : ''
                     })(
@@ -63,7 +63,7 @@ class AddTestPaper extends Component{
                     )}
                 </Item>
                 <Item label={'总分数'} {...formItemLayout}>
-                    {getFieldDecorator('score', {
+                    {getFieldDecorator('totalScore', {
                         rules: [{ required: true, message: '请输入总分数！' }],
                         initialValue:type === 'update' ? this.props.updateData.score : ''
                     })(

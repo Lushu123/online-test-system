@@ -1,19 +1,43 @@
 import React,{Component} from 'react'
-import { Form, Icon, Input, Button,Select } from 'antd';
+import { Form, Icon, Input, Button,Select,notification } from 'antd';
+import {Redirect} from 'react-router-dom'
 import './style/register.css'
 import FullScreenBG from "../components/FullScreenBG"
+import {register} from "../api"
 const Item = Form.Item
 const { Option } = Select;
 class Register extends Component{
     state = {
         confirmDirty: false,
-
+        code:0,
     };
+    componentDidMount() {
+
+    }
+
     handleSubmit = e => {
         e.preventDefault();
+        let _this = this
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                console.log('Received values of form: ', values);
+                delete values.confirm
+                console.log('传参: ', values);
+                register(values)
+                    .then(function (response) {
+                        let data = response.data
+                        _this.setState({code:response.data.code})
+                        if(data.code === 1){
+                            notification.success({message:"注册成功",description:'注册成功，请登录',duration:2})
+                        }else {
+                            notification.error({message:"注册失败",description:data.msg,duration:2})
+                        }
+
+                        console.log(response);
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                        console.log("系统错误！")
+                    });
             }
         });
     };
@@ -39,6 +63,10 @@ class Register extends Component{
     };
     render() {
         const { getFieldDecorator } = this.props.form;
+        const {code} = this.state
+        if(code === 1){
+            return <Redirect to={'/login'}/>
+        }
         return(
             <FullScreenBG>
                 <Form onSubmit={this.handleSubmit} className="login-form" layout={'vertical'}>
@@ -46,7 +74,7 @@ class Register extends Component{
                         <span >用户注册</span>
                     </Item>
                     <Item label={'用户名'} hasFeedback>
-                        {getFieldDecorator('username', {
+                        {getFieldDecorator('account', {
                             rules: [{ required: true, message: '请输入用户名！' }],
                         })(
                             <Input
@@ -75,33 +103,21 @@ class Register extends Component{
                             />,
                         )}
                     </Item>
-                    <Item label={'电话'} hasFeedback>
-                        {getFieldDecorator('phoneNumber', {
-                            rules: [
-                                { required: true, message: '请输入电话号码!' },
-                                {pattern:new RegExp(/^1[3456789]\d{9}$/),message: '请输入正确的电话号码！'},
-                                ],
-                        })(
-                            <Input
-                                placeholder="请输入电话号码"
-                            />,
-                        )}
-                    </Item>
                     <Item label={'注册类型'} hasFeedback>
-                        {getFieldDecorator('userType', {
+                        {getFieldDecorator('permissions', {
                             rules: [
                                 {required: true, message: '前选择注册类型!'},
                             ],
                         })(
                             <Select>
-                                <Option value="考生">考生</Option>
-                                <Option value="管理员">管理员</Option>
+                                <Option value="0">考生</Option>
+                                <Option value="1">管理员</Option>
                             </Select>
                         )}
 
                     </Item>
                     <Item>
-                        <Button type="primary" htmlType="submit" className="login-form-button">
+                        <Button type="primary" htmlType="submit" className="login-form-button" style={{marginBottom:5}}>
                             注册
                         </Button>
                         <span className="login-form-login">

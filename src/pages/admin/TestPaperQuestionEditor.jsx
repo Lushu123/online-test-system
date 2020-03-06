@@ -14,7 +14,11 @@ export default class TestPaperQuestionEditor extends Component{
         const {name,id} = this.props.match.params
 
         return(
-            <Tabs defaultActiveKey="1" tabBarExtraContent={<div style={{marginRight:10}}>{name}</div>}>
+            <Tabs
+                defaultActiveKey="1"
+                tabBarExtraContent={<div style={{marginRight:10}}>{name}</div>}
+                className={'testPaper-question-editor'}
+            >
                 <TabPane tab="新增考题" key="1" style={{paddingBottom:10}}>
                     <AddNewQuestionToTestPaper id={id}/>
                 </TabPane>

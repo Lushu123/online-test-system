@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "homepage": ".",
-  "proxy":"http://172.15.16.22:8080",
+  "proxy": "http://localhost:8082",
   "dependencies": {
     "antd": "^3.25.2",
     "axios": "^0.19.0",
@@ -15,7 +15,8 @@
     "react-app-rewired": "^2.1.5",
     "react-dom": "^16.12.0",
     "react-router-dom": "^5.1.2",
-    "react-scripts": "3.2.0"
+    "react-scripts": "3.2.0",
+    "js-cookie": "^2.2.1"
   },
   "scripts": {
     "start": "react-app-rewired start",

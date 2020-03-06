@@ -2,6 +2,7 @@ import React,{Component} from 'react'
 import {Button, Table} from "antd"
 import Answers from "./Answers"
 import PropTypes from 'prop-types'
+import '../style/testPaperEditorPanel.css'
 const data = [];
 for (let i = 0; i < 100; i++) {
     data.push({
@@ -73,8 +74,8 @@ export default class QuestionTable extends Component{
                     className={'test-paper-editor-table'}
                     columns={this.columns}
                     dataSource={data}
-                    pagination={{ pageSize: 10 }}
-                    scroll={{ y: 400 }}
+                    pagination={{ pageSize:10 }}
+                    scroll={{ y: 370 }}
                     expandedRowRender={record => <Answers answers={record.answers}/>}
                 />
             </>

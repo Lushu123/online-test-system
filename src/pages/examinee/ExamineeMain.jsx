@@ -10,6 +10,7 @@ import PersonalCenter from "./PersonalCenter"
 import ExaminationPage from "./ExaminationPage"
 
 import './style/examinee.css'
+import cookie from "js-cookie"
 
 const { Item  } = Menu;
 const { Footer } = Layout;
@@ -17,11 +18,11 @@ const { Search } = Input;
 const EXAMINATION_PAGE = '/examineeMain/examinationPage'
 
 const navArr = [
-    {key:'examinationPaperList',icon:'read',title:'全部考试'},
-    {key:'myExamination',icon:'solution',title:'我的考试'},
-    {key:'scoreInquiry',icon:'search',title:'成绩查询'},
-    {key:'joinClass',icon:'plus-circle',title:'加入班级'},
-    {key:'personalCenter',icon:'user',title:'个人中心'},
+    {key:'/examineeMain/examinationPaperList',icon:'read',title:'全部考试'},
+    {key:'/examineeMain/myExamination',icon:'solution',title:'我的考试'},
+    {key:'/examineeMain/scoreInquiry',icon:'search',title:'成绩查询'},
+    {key:'/examineeMain/joinClass',icon:'plus-circle',title:'加入班级'},
+    {key:'/examineeMain/personalCenter',icon:'user',title:'个人中心'},
 ]
 const routerArr = [
     {path:'/examineeMain/examinationPaperList',component:ExaminationPaperList},
@@ -33,16 +34,16 @@ const routerArr = [
 ]
 export default class ExamineeMain extends Component{
     state = {
-        current: 'examinationPaperList',
+        current: '/examineeMain/examinationPaperList',
     };
 
     componentDidMount() {
-        this.props.history.replace('/examineeMain/'+this.state.current)
+
     }
 
     handleClick = e => {
         console.log('click ', e);
-        this.props.history.replace('/examineeMain/'+e.key)
+        this.props.history.replace(e.key)
         this.setState({
             current: e.key,
         });
@@ -75,6 +76,7 @@ export default class ExamineeMain extends Component{
                             <Route key={router.path} path={router.path} component={router.component}/>
                         ))
                     }
+                    <Redirect to={'/examineeMain/examinationPaperList'}/>
                 </Switch>
                 {
                     curPath !== EXAMINATION_PAGE ?

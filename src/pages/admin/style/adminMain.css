@@ -1,1 +1,8 @@
 
+.ant-popover-content .ant-btn {
+    padding: 0;
+}
+
+.testPaper-question-editor .ant-tabs-bar{
+    margin: 0;
+}

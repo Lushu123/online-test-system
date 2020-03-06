@@ -11,6 +11,8 @@ import NewBreadcrumb from "../../components/NewBreadcrumb"
 import UpdateTestPaper from "./UpdateTestPaper"
 import Home from "./Home"
 import './style/adminMain.css'
+import cookie from "js-cookie"
+import ExaminationPaperList from "../examinee/ExaminationPaperList"
 const { Item,SubMenu  } = Menu;
 const { Footer,Sider,Content,Header } = Layout;
 
@@ -70,27 +72,33 @@ export default class AdminMain extends Component{
         }
 
     };
+    logout = () => {
+        cookie.remove('userid')
+        this.props.history.replace('/')
+    }
     render() {
         const {current,mainWidth} = this.state
         return(
             <Layout style={{ minHeight: '100vh' }}>
-                <Header style={{color:'white',position:'fixed',top:0,left:0,right:0}}>
+                <Header style={{color:'white',position:'fixed',top:0,left:0,right:0,}} >
                     <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
                         <span style={{fontWeight:'bold',fontSize:16}}>线上考试后台管理系统</span>
-                        <Popover
-                            placement="bottomRight"
-                            title={<div style={{textAlign: 'center'}}>QingYuanO</div>}
-                            content={
-                                <div>
-                                    <Button block type={'link'}>注销账号</Button>
-                                    <Button block type={'link'}>修改密码</Button>
-                                </div>
-
-                            }
-                            trigger="click">
-                            <Avatar icon="user" style={{cursor:'pointer' }}/>
-                        </Popover>
-
+                        <div  className={'popover-btn'}>
+                            <Popover
+                                placement="bottomRight"
+                                title={<div style={{textAlign: 'center'}}>QingYuanO</div>}
+                                content={
+                                    <div >
+                                        <Button block type={'link'} onClick={this.logout}>注销账号</Button>
+                                        <Button block type={'link'}>个人中心</Button>
+                                        <Button block type={'link'}>修改密码</Button>
+                                    </div>
+                                }
+                                trigger="click">
+                                <Avatar icon="user" style={{cursor:'pointer' }}/>
+                            </Popover>
+                            <span style={{marginLeft:5}}>QingYuanO</span>
+                        </div>
                     </div>
                 </Header>
                 <Layout style={{marginTop:61}}>
@@ -159,10 +167,9 @@ export default class AdminMain extends Component{
                             </Switch>
                         </Content>
 
-
-                        <Footer style={{ textAlign: 'center'}}
+                        <Footer style={{ textAlign: 'center',padding:'10px 50px'}}
                                 className={'footer'}>
-                            Ant Design ©2018 Created by Ant UED
+                            Online Test System ©2020 Created by QingYuanO
                         </Footer>
                     </Layout>
                 </Layout>

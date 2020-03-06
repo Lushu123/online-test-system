@@ -55,17 +55,17 @@ export default class TestPaperEditor extends Component{
                 align:'center',
                 render: (text, record, index) => (
                     <div>
+                        <Button size="small" style={{marginRight:5}} onClick={() => this.addQuestion({id:text.key,name:text.name})}>
+                            考题编辑
+                        </Button>
                         <Button.Group>
-                            <Button size="small" type="danger" onClick={() => this.deleteTestPaper(text)}>删除</Button>
-                            <Button size="small" type="primary" onClick={() => this.updateTestPaper(text)}>修改</Button>
-                        </Button.Group>
-                        <Button.Group style={{marginLeft:5}}>
                             <Button size="small" type="primary">发布</Button>
                             <Button size="small" type="danger">撤回</Button>
                         </Button.Group>
-                        <Button size="small" style={{marginLeft:5}} onClick={() => this.addQuestion({id:text.key,name:text.name})}>
-                            考题编辑
-                        </Button>
+                        <Button.Group  style={{marginTop:5}}>
+                            <Button size="small" type="danger" onClick={() => this.deleteTestPaper(text)}>删除</Button>
+                            <Button size="small" type="primary" onClick={() => this.updateTestPaper(text)}>修改</Button>
+                        </Button.Group>
                     </div>
 
                 ),
@@ -95,7 +95,8 @@ export default class TestPaperEditor extends Component{
                         className={'test-paper-editor-table'}
                         columns={this.columns}
                         dataSource={data}
-                        pagination={{ pageSize: 7 }}
+                        pagination={{ pageSize:10 }}
+                        scroll={{ y: 400 }}
                         expandedRowRender={record => <p style={{ margin: 0 }}>{record.describe}</p>}
                     />
              </>

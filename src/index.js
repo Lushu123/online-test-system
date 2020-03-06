@@ -5,16 +5,15 @@ import {HashRouter,Route,Switch,Redirect,BrowserRouter} from 'react-router-dom'
 import Main from "./pages/Main"
 import Login from "./pages/Login"
 import Register from "./pages/Register"
+import ExamineeMain from "./pages/examinee/ExamineeMain"
+import AdminMain from "./pages/admin/AdminMain"
+import App from "./App"
 
 ReactDOM.render(
     (
-        <HashRouter>
-            <Switch>
-                <Route path='/login' component={Login}/>
-                <Route path='/register' component={Register}/>
-                <Route  component={Main}/>  {/*默认组件*/}
-            </Switch>
-        </HashRouter>
+        <BrowserRouter>
+            <App/>
+        </BrowserRouter>
     ),
     document.getElementById('root'));
 

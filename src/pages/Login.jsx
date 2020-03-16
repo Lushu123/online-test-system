@@ -40,7 +40,7 @@ class Login extends Component{
         const {loginSuccessData} = this.state
         if(loginSuccessData.code === 1){
             cookie.set('userid',loginSuccessData.user.id)
-            return <Redirect to={'/'}/>
+            return <Redirect to={'/'} />
         }
         return(
             <FullScreenBG>

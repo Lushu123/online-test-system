@@ -6,7 +6,9 @@ import cookie from 'js-cookie'
 import './style/main.css'
 import ExamineeMain from "./examinee/ExamineeMain"
 import AdminMain from "./admin/AdminMain"
+import UserContext from "../context/UserContext"
 import PubSub from 'pubsub-js'
+
 export default class Main extends Component{
     state = {
         user:{},
@@ -30,6 +32,7 @@ export default class Main extends Component{
 
     render() {
         const {user} = this.state
+        delete user.password
         const userid = cookie.get('userid')
         if(!userid){
             return <Redirect to={'/login'}/>
@@ -48,10 +51,13 @@ export default class Main extends Component{
             }
         }
         return(
-            <Switch>
-                <Route path='/examineeMain' component={ExamineeMain}/>
-                <Route path='/adminMain' component={AdminMain}/>
-            </Switch>
+            <UserContext.Provider value={user}>
+                <Switch>
+                    <Route path='/examineeMain' component={ExamineeMain}/>
+                    <Route path='/adminMain' component={AdminMain}/>
+                </Switch>
+            </UserContext.Provider>
+
         )
     }
 }

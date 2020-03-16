@@ -12,7 +12,7 @@ import UpdateTestPaper from "./UpdateTestPaper"
 import Home from "./Home"
 import './style/adminMain.css'
 import cookie from "js-cookie"
-import ExaminationPaperList from "../examinee/ExaminationPaperList"
+import UserContext from "../../context/UserContext"
 const { Item,SubMenu  } = Menu;
 const { Footer,Sider,Content,Header } = Layout;
 
@@ -45,6 +45,7 @@ const routerArr = [
     {path:'/adminMain/home',component:Home},
 ]
 export default class AdminMain extends Component{
+    static contextType = UserContext;
     state = {
         current: '/adminMain/home',
         collapsed: false,
@@ -53,6 +54,8 @@ export default class AdminMain extends Component{
 
     componentDidMount() {
         this.props.history.replace(this.state.current)
+        console.log(this.context)
+
     }
 
     handleClick = e => {
@@ -63,7 +66,6 @@ export default class AdminMain extends Component{
         });
     };
     onCollapse = collapsed => {
-        console.log(collapsed);
         this.setState({ collapsed});
         if(collapsed){
             this.setState({mainWidth:80});
@@ -78,6 +80,7 @@ export default class AdminMain extends Component{
     }
     render() {
         const {current,mainWidth} = this.state
+        const user = this.context
         return(
             <Layout style={{ minHeight: '100vh' }}>
                 <Header style={{color:'white',position:'fixed',top:0,left:0,right:0,}} >
@@ -86,7 +89,7 @@ export default class AdminMain extends Component{
                         <div  className={'popover-btn'}>
                             <Popover
                                 placement="bottomRight"
-                                title={<div style={{textAlign: 'center'}}>QingYuanO</div>}
+                                title={<div style={{textAlign: 'center'}}>{user.account}</div>}
                                 content={
                                     <div >
                                         <Button block type={'link'} onClick={this.logout}>注销账号</Button>
@@ -97,7 +100,7 @@ export default class AdminMain extends Component{
                                 trigger="click">
                                 <Avatar icon="user" style={{cursor:'pointer' }}/>
                             </Popover>
-                            <span style={{marginLeft:5}}>QingYuanO</span>
+                            <span style={{marginLeft:5}}>{user.account}</span>
                         </div>
                     </div>
                 </Header>

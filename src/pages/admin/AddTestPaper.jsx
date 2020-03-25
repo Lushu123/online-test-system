@@ -5,7 +5,7 @@ export default class AddTestPaper extends Component{
     render() {
 
         return(
-               <TestPaperForm type={'add'} handleSubmit={this.handleSubmit}/>
+               <TestPaperForm type={'add'} />
         )
     }
 }

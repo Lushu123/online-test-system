@@ -1,9 +1,9 @@
 import React,{Component} from 'react'
-import {Button, DatePicker, Form, Input, Layout} from "antd"
+import {Button, DatePicker, Form, Input, Layout, notification} from "antd"
 import locale from "antd/es/date-picker/locale/zh_CN"
 import PropTypes from 'prop-types'
-
-const {Content} = Layout
+import cookie from "js-cookie"
+import {addTestPaper} from '../../api/index'
 const Item = Form.Item
 const formItemLayout = {
     labelCol: { span: 4 },
@@ -22,6 +22,23 @@ class AddTestPaper extends Component{
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 console.log('Received values of form: ', values);
+                Object.assign(values,{isRelease:'0'})
+                if(this.props.type === 'add'){
+                    const userid = cookie.get('userid')
+                    addTestPaper({testPaper:values,userId:userid})
+                        .then(function (response) {
+                           let data = response.data;
+                            if(data.code === 0){
+                                notification.error({message:'添加失败！',duration:2})
+                            }else {
+                                notification.info({message:'添加成功！',duration:2})
+                            }
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                            console.log("系统错误！")
+                        });
+                }
             }
         });
     };
@@ -35,7 +52,7 @@ class AddTestPaper extends Component{
                     <span style={{fontSize:16}}>信息填写</span>
                 </Item>
                 <Item label={'试卷名'} {...formItemLayout}>
-                    {getFieldDecorator('name', {
+                    {getFieldDecorator('title', {
                         rules: [{ required: true, message: '请输入试卷名！' }],
                         initialValue:type === 'update' ? this.props.updateData.name : ''
                     })(

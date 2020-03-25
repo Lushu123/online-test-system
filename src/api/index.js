@@ -6,6 +6,7 @@ import ajax from "./ajax"
 const register = (user) => ajax('/user/register',user,"POST")
 const login = (certification) => ajax('/user/login',certification,"POST")
 const autoLogin = (id) => ajax('/user/autoLogin',id)
+const addTestPaper = (testPaperAndUserId) => ajax('/testPaper/addTestPaper',testPaperAndUserId,'POST')
 
 
 
@@ -14,6 +15,7 @@ const autoLogin = (id) => ajax('/user/autoLogin',id)
 export {
     register,
     login,
-    autoLogin
+    autoLogin,
+    addTestPaper
 }
 

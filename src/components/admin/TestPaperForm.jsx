@@ -9,9 +9,6 @@ const formItemLayout = {
     labelCol: { span: 4 },
     wrapperCol: { span: 16,offset:1 },
 }
-const ClearInput = (props) => (
-    <Input allowClear={true} {...props}/>
-)
 class AddTestPaper extends Component{
     static propTypes = {
         type:PropTypes.string.isRequired,
@@ -23,6 +20,7 @@ class AddTestPaper extends Component{
             if (!err) {
                 console.log('Received values of form: ', values);
                 Object.assign(values,{isRelease:'0'})
+                let _this = this;
                 if(this.props.type === 'add'){
                     const userid = cookie.get('userid')
                     addTestPaper({testPaper:values,userId:userid})
@@ -32,6 +30,8 @@ class AddTestPaper extends Component{
                                 notification.error({message:'添加失败！',duration:2})
                             }else {
                                 notification.info({message:'添加成功！',duration:2})
+                                // eslint-disable-next-line no-unused-expressions
+                                _this.props.form.resetFields()
                             }
                         })
                         .catch(function (error) {
@@ -54,9 +54,9 @@ class AddTestPaper extends Component{
                 <Item label={'试卷名'} {...formItemLayout}>
                     {getFieldDecorator('title', {
                         rules: [{ required: true, message: '请输入试卷名！' }],
-                        initialValue:type === 'update' ? this.props.updateData.name : ''
+                        initialValue:type === 'update' ? this.props.updateData.title : ''
                     })(
-                        <ClearInput
+                        <Input
                             placeholder="请输入试卷名"
                         />,
                     )}
@@ -72,7 +72,7 @@ class AddTestPaper extends Component{
                 <Item label={'考试时长'} {...formItemLayout}>
                     {getFieldDecorator('duration', {
                         rules: [{ required: true, message: '请输入考试时长！' }],
-                        initialValue:type === 'update' ? this.props.updateData.time : ''
+                        initialValue:type === 'update' ? this.props.updateData.duration : ''
                     })(
                         <Input
                             placeholder="请输入考试时长"
@@ -82,7 +82,7 @@ class AddTestPaper extends Component{
                 <Item label={'总分数'} {...formItemLayout}>
                     {getFieldDecorator('totalScore', {
                         rules: [{ required: true, message: '请输入总分数！' }],
-                        initialValue:type === 'update' ? this.props.updateData.score : ''
+                        initialValue:type === 'update' ? this.props.updateData.totalScore : ''
                     })(
                         <Input
                             placeholder="请输入总分数"

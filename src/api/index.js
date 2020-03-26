@@ -6,7 +6,11 @@ import ajax from "./ajax"
 const register = (user) => ajax('/user/register',user,"POST")
 const login = (certification) => ajax('/user/login',certification,"POST")
 const autoLogin = (id) => ajax('/user/autoLogin',id)
+const getTestPapers = (userId) => ajax('/testPaper/getTestPapers',userId)
 const addTestPaper = (testPaperAndUserId) => ajax('/testPaper/addTestPaper',testPaperAndUserId,'POST')
+const removeTestPaper = (testPaperIdAndUserId) => ajax('/testPaper/removeTestPaper',testPaperIdAndUserId,'POST')
+const isRelease = (userTestPaperIdAndIsRelease) => ajax('/testPaper/isRelease',userTestPaperIdAndIsRelease,'POST')
+
 
 
 
@@ -16,6 +20,9 @@ export {
     register,
     login,
     autoLogin,
-    addTestPaper
+    addTestPaper,
+    getTestPapers,
+    removeTestPaper,
+    isRelease
 }
 

@@ -1,6 +1,5 @@
 import React,{Component} from 'react'
 import { Calendar } from 'antd';
-import {register} from '../../api/index'
 import moment from 'moment';
 import 'moment/locale/zh-cn';
 

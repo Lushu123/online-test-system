@@ -9,6 +9,7 @@ const autoLogin = (id) => ajax('/user/autoLogin',id)
 const getTestPapers = (userId) => ajax('/testPaper/getTestPapers',userId)
 const addTestPaper = (testPaperAndUserId) => ajax('/testPaper/addTestPaper',testPaperAndUserId,'POST')
 const removeTestPaper = (testPaperIdAndUserId) => ajax('/testPaper/removeTestPaper',testPaperIdAndUserId,'POST')
+const updateTestPaper = (testPaper) => ajax('/testPaper/updateTestPaper',testPaper,'POST')
 const isRelease = (userTestPaperIdAndIsRelease) => ajax('/testPaper/isRelease',userTestPaperIdAndIsRelease,'POST')
 
 
@@ -23,6 +24,7 @@ export {
     addTestPaper,
     getTestPapers,
     removeTestPaper,
+    updateTestPaper,
     isRelease
 }
 

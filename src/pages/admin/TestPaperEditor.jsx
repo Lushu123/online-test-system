@@ -114,7 +114,9 @@ export default class TestPaperEditor extends Component{
             state
         })
     }
+    //是否发布考卷
     isRelease = (data) =>{
+
         this.setState({
             loading:true
         })
@@ -137,6 +139,7 @@ export default class TestPaperEditor extends Component{
             }
         })
     }
+    //删除考卷
     deleteTestPaper = (text) => {
         console.log(text);
         Modal.confirm({
@@ -171,6 +174,7 @@ export default class TestPaperEditor extends Component{
             }
         });
     }
+    //自定义筛选考卷名
     getColumnSearchProps = dataIndex => ({
         filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
             <div style={{ padding: 8 }}>
@@ -212,7 +216,6 @@ export default class TestPaperEditor extends Component{
             }
         },
     });
-
     handleSearch = (selectedKeys, confirm, dataIndex) => {
         confirm();
         this.setState({
@@ -220,7 +223,6 @@ export default class TestPaperEditor extends Component{
             searchedColumn: dataIndex,
         });
     };
-
     handleReset = clearFilters => {
         clearFilters();
         this.setState({ searchText: '' });

@@ -39,7 +39,7 @@ const routerArr = [
     {path:'/adminMain/test/testPaperEditor',component:TestPaperEditor},
     {path:'/adminMain/test/addTestPaper',component:AddTestPaper},
     {path:'/adminMain/test/updateTestPaper',component:UpdateTestPaper},
-    {path:'/adminMain/test/testPaperQuestionEditor/:name/:id',component:TestPaperQuestionEditor},
+    {path:'/adminMain/test/testPaperQuestionEditor/:title/:id',component:TestPaperQuestionEditor},
     {path:'/adminMain/question/questionEditor',component:QuestionEditor},
     {path:'/adminMain/question/addQuestion',component:AddQuestion},
     {path:'/adminMain/home',component:Home},
@@ -83,7 +83,7 @@ export default class AdminMain extends Component{
         const user = this.context
         return(
             <Layout style={{ minHeight: '100vh' }}>
-                <Header style={{color:'white',position:'fixed',top:0,left:0,right:0,}} >
+                <Header style={{color:'white',position:'fixed',top:0,left:0,right:0,zIndex:999}} >
                     <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
                         <span style={{fontWeight:'bold',fontSize:16}}>线上考试后台管理系统</span>
                         <div  className={'popover-btn'}>

@@ -2,18 +2,20 @@ import React,{Component} from 'react'
 import {Button, Table} from "antd"
 import Answers from "./Answers"
 import PropTypes from 'prop-types'
+import {getQuestions} from '../../api/index'
 import '../style/testPaperEditorPanel.css'
+import cookie from "js-cookie"
 const data = [];
 for (let i = 0; i < 100; i++) {
     data.push({
         key: i,
         questionName: `在创建对象时必须（）${i}`,
-        answers:[
-            {answer: `先声明对象，然后才能使用对象${i}`,option:'A'},
-            {answer: `先声明对象，为对象分配内存空间，然后才能使用对象${i}`,option:'B'},
-            {answer: `先声明对象，为对象分配内存空间，对对象初始化，然后才能使用对象${i}`,option:'C'},
-            {answer: `上述说法都对 ${i}`,option:'D'},
-        ],
+        answers:{
+            answerA: `先声明对象，然后才能使用对象${i}`,
+            answerB: `先声明对象，为对象分配内存空间，然后才能使用对象${i}`,
+            answerC: `先声明对象，为对象分配内存空间，对对象初始化，然后才能使用对象${i}`,
+            answerD: `上述说法都对 ${i}`,
+        },
         realAnswer: `D`,
         score:2,
         type:'选择题',
@@ -22,16 +24,14 @@ for (let i = 0; i < 100; i++) {
 }
 
 export default class QuestionTable extends Component{
-    static propTypes = {
-        renderOperation:PropTypes.func.isRequired
-    }
+
     constructor(props){
         super(props)
         this.columns = [
             {
                 title: '题干',
-                dataIndex: 'questionName',
-                key: 'questionName',
+                dataIndex: 'questionStem',
+                key: 'questionStem',
                 align:'center',
             },
             {
@@ -53,12 +53,6 @@ export default class QuestionTable extends Component{
                 align:'center',
             },
             {
-                title: '知识范畴',
-                key: 'knowledgeCategory',
-                dataIndex: 'knowledgeCategory',
-                align:'center',
-            },
-            {
                 title: '操作',
                 key: 'operation',
                 align:'center',
@@ -66,14 +60,19 @@ export default class QuestionTable extends Component{
             }
         ];
     }
+    static propTypes = {
+        questionList:PropTypes.array.isRequired
+    }
 
     render() {
+        const {questionList,loading} = this.props
         return(
             <>
                 <Table
+                    loading={loading}
                     className={'test-paper-editor-table'}
                     columns={this.columns}
-                    dataSource={data}
+                    dataSource={questionList}
                     pagination={{ pageSize:10 }}
                     scroll={{ y: 370 }}
                     expandedRowRender={record => <Answers answers={record.answers}/>}

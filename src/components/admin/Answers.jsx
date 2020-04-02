@@ -5,18 +5,25 @@ import {List,Typography} from 'antd'
 export default class Answers extends Component{
 
     static propTypes = {
-        answers:PropTypes.array.isRequired
+        answers:PropTypes.object.isRequired
     }
     render() {
+        const {answers} = this.props
         return(
-            <List
-                dataSource={this.props.answers}
-                renderItem={item => (
-                    <List.Item>
-                        <Typography.Text mark>{item.option}：</Typography.Text> {item.answer}
-                    </List.Item>
-                )}
-            />
+            <List>
+                <List.Item>
+                    <Typography.Text mark>{'A'}：</Typography.Text> {answers.answerA}
+                </List.Item>
+                <List.Item>
+                    <Typography.Text mark>{'B'}：</Typography.Text> {answers.answerB}
+                </List.Item>
+                <List.Item>
+                    <Typography.Text mark>{'C'}：</Typography.Text> {answers.answerC}
+                </List.Item>
+                <List.Item>
+                    <Typography.Text mark>{'D'}：</Typography.Text> {answers.answerD}
+                </List.Item>
+            </List>
         )
     }
 }

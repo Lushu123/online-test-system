@@ -15,12 +15,15 @@ export default class DeleteQuestionFormTestPaper extends Component{
 
     }
     handle = (text,id) =>{
-        console.log(text)
-        console.log(id)
+
     }
     render() {
         return(
-            <QuestionTable renderOperation={this.renderOperation}/>
+            <QuestionTable
+                renderOperation={this.renderOperation}
+                questionList={this.props.questionList}
+                loading={this.props.loading}
+            />
         )
     }
 }

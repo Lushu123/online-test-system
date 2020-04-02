@@ -1,8 +1,40 @@
 import React,{Component} from 'react'
 import QuestionTable from "../../components/admin/QuestionTable"
 import {Button} from "antd"
+import cookie from "js-cookie"
+import {getQuestions} from "../../api"
 
 export default class QuestionEditor extends Component{
+    constructor(props){
+        super(props)
+        this.state = {
+            questionList:[],
+            loading:true
+        }
+    }
+    componentDidMount() {
+        const userId = cookie.get('userid')
+        getQuestions({userId})
+            .then(res => {
+                const data = res.data
+                console.log(data)
+                this.setState({
+                    questionList:data.questionList,
+                    loading:false
+                })
+
+            })
+            .catch(function (error) {
+                console.log(error);
+                console.log("系统错误！")
+            })
+    }
+    componentWillUnmount() {
+        this.setState = (state, callback) => {
+            return;
+
+        }
+    }
     renderOperation = (text) =>{
         return (
             <div>
@@ -22,7 +54,11 @@ export default class QuestionEditor extends Component{
     }
     render() {
         return(
-            <QuestionTable renderOperation={this.renderOperation}/>
+            <QuestionTable
+                renderOperation={this.renderOperation}
+                questionList={this.state.questionList}
+                loading={this.state.loading}
+            />
         )
     }
 }

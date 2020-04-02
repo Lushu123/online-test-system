@@ -27,7 +27,11 @@ export default class Home extends Component{
     render() {
         return(
             <div style={{maxHeight:500,overflow:'auto'}}>
-                <Calendar dateCellRender={this.dateCellRender} onPanelChange={this.onPanelChange} locale={moment.locale('zh-cn')} />
+                {/*<Calendar */}
+                {/*    dateCellRender={this.dateCellRender}*/}
+                {/*    onPanelChange={this.onPanelChange}*/}
+                {/*    locale={moment.locale('zh-cn')}*/}
+                {/*/>*/}
             </div>
         )
     }

@@ -19,9 +19,10 @@ class QuestionForm extends Component{
 
     handleSubmit = e => {
         e.preventDefault();
-        this.props.form.validateFields((err, values) => {
+        this.props.form.validateFields((err, question) => {
+            console.log(question)
             if (!err) {
-                this.props.handle(values)
+                this.props.handle(question,this.props.form)
             }
 
         });
@@ -31,57 +32,13 @@ class QuestionForm extends Component{
         const {getFieldDecorator} = this.props.form
         return(
             <Form onSubmit={this.handleSubmit}>
-                <Row>
+                <Row style={{marginTop:20}}>
                     <Col span={22} offset={1}>
                         <Item labelAlign={'left'} label={'题干'} labelCol={{ span: 2}} wrapperCol={{ span: 22}}>
                             {getFieldDecorator('questionStem', {
                                 rules: [{ required: true, message: '请输入题干！' }],
                             })(
                                 <Input allowClear={true}/>
-                            )}
-                        </Item>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col span={10} offset={1}>
-                        <Item label={'题目类型'} >
-                            {getFieldDecorator('type', {
-                                rules: [{ required: true, message: '请选择类型！' }],
-                            })(
-                                <Select>
-                                    <Option value="jack">选择题</Option>
-                                    <Option value="lucy">填空题</Option>
-                                </Select>
-                            )}
-                        </Item>
-                    </Col>
-                    <Col span={10} offset={2}>
-                        <Item label={'知识范畴'}>
-                            {getFieldDecorator('knowledgeCategory', {
-                                rules: [{ required: true, message: '请填写知识范畴！' }],
-                            })(
-                                <Input allowClear={true}/>
-                            )}
-                        </Item>
-                    </Col>
-
-                </Row>
-                <Row>
-                    <Col span={10} offset={1}>
-                        <Item label={'正确答案'}>
-                            {getFieldDecorator('realAnswer', {
-                                rules: [{ required: true, message: '请选择正确答案！' }],
-                            })(
-                                <Radio.Group options={options}/>
-                            )}
-                        </Item>
-                    </Col>
-                    <Col span={10} offset={2}>
-                        <Item label={'题目分值'} >
-                            {getFieldDecorator('score', {
-                                rules: [{ required: true, message: '请填写题目分值！' }],
-                            })(
-                                <InputNumber/>
                             )}
                         </Item>
                     </Col>
@@ -127,8 +84,37 @@ class QuestionForm extends Component{
                     </Col>
                 </Row>
                 <Row>
-                    <Col span={22} offset={1}>
-                        <Button type="primary" block={true} htmlType="submit">确认添加</Button>
+                    <Col span={8} offset={1}>
+                        <Item label={'正确答案'}>
+                            {getFieldDecorator('realAnswer', {
+                                rules: [{ required: true, message: '请选择正确答案！' }],
+                            })(
+                                <Radio.Group options={options}/>
+                            )}
+                        </Item>
+                    </Col>
+                    <Col span={3} offset={1}>
+                        <Item label={'题目分值'} >
+                            {getFieldDecorator('score', {
+                                rules: [{ required: true, message: '请填写题目分值！' }],
+                            })(
+                                <InputNumber/>
+                            )}
+                        </Item>
+                    </Col>
+                    <Col span={8} offset={2}>
+                        <Item label={'题目类型'} >
+                            {getFieldDecorator('type', {
+                                rules: [{ required: true, message: '请选择类型！' }],
+                            })(
+                                <Input allowClear={true}/>
+                            )}
+                        </Item>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col span={22} offset={1} style={{textAlign:'center'}}>
+                        <Button type="primary" htmlType="submit" >确认添加</Button>
                     </Col>
                 </Row>
             </Form>

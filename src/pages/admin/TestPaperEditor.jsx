@@ -45,15 +45,37 @@ export default class TestPaperEditor extends Component{
                 sorter: (a, b) => a.questionNum - b.questionNum,
             },
             {
+                title: '是否发布',
+                key: 'isRelease',
+                dataIndex: 'isRelease',
+                align:'center',
+                filters:[
+                    {
+                        text: '是',
+                        value: '1',
+                    },
+                    {
+                        text: '否',
+                        value: '0',
+                    },
+                ],
+                onFilter: (value, record) => record.isRelease.indexOf(value) === 0,
+                render:(record) => (<span>
+                    {record === "1" ? '是':'否'}
+                </span>)
+            },
+            {
                 title: '操作',
                 key: 'operation',
                 align:'center',
                 render: (text, record, index) => (
                     <div>
-                        <Button size="small" style={{marginRight:5}} onClick={() => this.addQuestion({id:text.key,name:text.name})}>
+                        <Button size="small" style={{marginRight:5}}
+                                disabled={text.isRelease === '1'}
+                                onClick={() => this.addQuestion({id:text.key,title:text.title})}>
                             考题编辑
                         </Button>
-                        <Button.Group>
+                        <Button.Group  style={{marginTop:5}}>
                             <Button
                                 size="small"
                                 type="primary"
@@ -68,8 +90,12 @@ export default class TestPaperEditor extends Component{
                             >撤回</Button>
                         </Button.Group>
                         <Button.Group  style={{marginTop:5}}>
-                            <Button size="small" type="danger" onClick={() => this.deleteTestPaper(text)}>删除</Button>
-                            <Button size="small" type="primary" onClick={() => this.updateTestPaper(text)}>修改</Button>
+                            <Button size="small" type="danger"
+                                    disabled={text.isRelease === '1'}
+                                    onClick={() => this.deleteTestPaper(text)}>删除</Button>
+                            <Button size="small" type="primary"
+                                    disabled={text.isRelease === '1'}
+                                    onClick={() => this.updateTestPaper(text)}>修改</Button>
                         </Button.Group>
                     </div>
 
@@ -102,10 +128,17 @@ export default class TestPaperEditor extends Component{
             console.log("系统错误！")
         })
     }
+    componentWillUnmount() {
+        this.setState = (state, callback) => {
+            return;
+
+        }
+    }
 
     addQuestion = (testPaper) =>{
+        console.log(testPaper)
         this.props.history.push({
-            pathname: `/adminMain/test/testPaperQuestionEditor/${testPaper.title}/${testPaper.key}`,
+            pathname: `/adminMain/test/testPaperQuestionEditor/${testPaper.title}/${testPaper.id}`,
         })
     }
     updateTestPaper = (state) =>{

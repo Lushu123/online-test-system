@@ -11,6 +11,11 @@ const addTestPaper = (testPaperAndUserId) => ajax('/testPaper/addTestPaper',test
 const removeTestPaper = (testPaperIdAndUserId) => ajax('/testPaper/removeTestPaper',testPaperIdAndUserId,'POST')
 const updateTestPaper = (testPaper) => ajax('/testPaper/updateTestPaper',testPaper,'POST')
 const isRelease = (userTestPaperIdAndIsRelease) => ajax('/testPaper/isRelease',userTestPaperIdAndIsRelease,'POST')
+const addQuestion = (question) => ajax('/question/addQuestion',question,'POST')
+const addQuestionToTestPaper = (questionAndTestPaperId) => ajax('/question/addQuestionToTestPaper',questionAndTestPaperId,'POST')
+const getQuestions = (userId) => ajax('/question/getQuestions',userId)
+const getQuestionsByTestPaperId = (testPaperId) => ajax('/question/getQuestionsByTestPaperId',testPaperId)
+const getQuestionsNotInTestPaperId = (testPaperId) => ajax('/question/getQuestionsNotInTestPaperId',testPaperId)
 
 
 
@@ -25,6 +30,11 @@ export {
     getTestPapers,
     removeTestPaper,
     updateTestPaper,
-    isRelease
+    isRelease,
+    addQuestion,
+    getQuestions,
+    getQuestionsByTestPaperId,
+    addQuestionToTestPaper,
+    getQuestionsNotInTestPaperId,
 }
 

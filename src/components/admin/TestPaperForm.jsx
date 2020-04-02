@@ -1,6 +1,5 @@
 import React,{Component} from 'react'
 import {Button, DatePicker, Form, Input, notification,Spin} from "antd"
-import locale from "antd/es/date-picker/locale/zh_CN"
 import PropTypes from 'prop-types'
 import cookie from "js-cookie"
 import {addTestPaper,updateTestPaper} from '../../api/index'
@@ -10,65 +9,19 @@ const formItemLayout = {
     wrapperCol: { span: 16,offset:1 },
 }
 class AddTestPaper extends Component{
-    state = {
-        loading:false,
-    }
+
     static propTypes = {
         type:PropTypes.string.isRequired,
-        updateData:PropTypes.object
+        handle:PropTypes.func.isRequired,
+        updateData:PropTypes.object,
+        loading:PropTypes.bool,
     }
+
     handleSubmit = e => {
         e.preventDefault();
         this.props.form.validateFields((err, testPaper) => {
             if (!err) {
-                console.log('Received testPaper of form: ', testPaper);
-                this.setState({
-                    loading:true
-                })
-                if(this.props.type === 'add'){
-                    Object.assign(testPaper,{isRelease:'0',date:testPaper.date.format('YYYY-MM-DD HH:mm:ss')})
-                    const userid = cookie.get('userid')
-                    addTestPaper({testPaper,userId:userid})
-                        .then((response) => {
-                           let data = response.data;
-                            this.setState({
-                                loading:false
-                            })
-                            if(data.code === 0){
-                                notification.error({message:'添加失败！',duration:2})
-                            }else {
-                                notification.info({message:'添加成功！',duration:2})
-                                this.props.form.resetFields()
-                            }
-                        })
-                        .catch(function (error) {
-                            console.log(error);
-                            console.log("系统错误！")
-                        });
-                }else {
-                    const testPaperId = this.props.updateData.key
-                    Object.assign(testPaper,{id:testPaperId,date:testPaper.date.format('YYYY-MM-DD HH:mm:ss')})
-                    updateTestPaper(testPaper)
-                        .then((response) => {
-                        let data = response.data;
-                        this.setState({
-                            loading:false
-                        })
-                        if(data.code === 0){
-                            notification.error({message:'修改失败！',duration:2})
-                        }else {
-                            notification.info({message:'修改成功！',duration:2})
-                            this.props.history.push({
-                                pathname: `/adminMain/test/testPaperEditor`,
-                            })
-
-                        }
-                    })
-                        .catch(function (error) {
-                            console.log(error);
-                            console.log("系统错误！")
-                        });
-                }
+                this.props.handle(testPaper,this.props.form)
             }
         });
     };
@@ -76,7 +29,7 @@ class AddTestPaper extends Component{
         const { getFieldDecorator } = this.props.form;
         const {type} = this.props
         return(
-            <Spin size="large" spinning={this.state.loading}>
+            <Spin size="large" spinning={this.props.loading}>
                 <Form onSubmit={this.handleSubmit} hideRequiredMark={true} colon={false} className={'test-paper-editor-panel'}>
                     <Item style={{textAlign:'center',fontWeight:'bold'}}>
                         <span style={{fontSize:16}}>信息填写</span>
@@ -94,9 +47,9 @@ class AddTestPaper extends Component{
                     <Item label={'考试时间'} {...formItemLayout}>
                         {getFieldDecorator('date', {
                             rules: [{ required: true, message: '请输入试卷名！' }],
-                            initialValue:type === 'update' ? this.props.updateData.date : ''
+                            initialValue:type === 'update' ? this.props.updateData.date : null
                         })(
-                            <DatePicker showTime format="YYYY/MM/DD HH:mm:ss" style={{width:'100%'}} locale={locale}/>
+                            <DatePicker showTime format="YYYY/MM/DD HH:mm:ss" style={{width:'100%'}} />
                         )}
                     </Item>
                     <Item label={'考试时长'} {...formItemLayout}>

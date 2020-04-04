@@ -1,14 +1,15 @@
 import React,{Component} from 'react'
 import QuestionTable from "../../components/admin/QuestionTable"
-import {Button} from "antd"
+import {Button, Modal} from "antd"
 import cookie from "js-cookie"
-import {getQuestions} from "../../api"
+import {getQuestions, deleteQuestion, removeTestPaper} from "../../api"
 
 export default class QuestionEditor extends Component{
     constructor(props){
         super(props)
         this.state = {
             questionList:[],
+            types:[],
             loading:true
         }
     }
@@ -20,6 +21,7 @@ export default class QuestionEditor extends Component{
                 console.log(data)
                 this.setState({
                     questionList:data.questionList,
+                    types:data.types,
                     loading:false
                 })
 
@@ -47,7 +49,35 @@ export default class QuestionEditor extends Component{
 
     }
     deleteQuestion = (text) =>{
-        console.log(text)
+
+        Modal.confirm({
+            title: '请确认是否删除',
+            content:'删除后相应考卷内的该考题也将删除，请确保该考题没有添加至任何考卷！',
+            okText: '确认',
+            cancelText: '取消',
+            centered:true,
+            onOk:() => {
+                this.setState({
+                    loading:true
+                })
+                deleteQuestion({questionId:text.key,userId:cookie.get('userid')})
+                    .then(res => {
+                        const data = res.data
+                        console.log(data)
+                        this.setState({
+                            questionList:data.questionList,
+                            types:data.types,
+                            loading:false
+                        })
+
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                        console.log("系统错误！")
+                    })
+            }
+        });
+
     }
     updateQuestion = (text) =>{
         console.log(text)
@@ -58,6 +88,7 @@ export default class QuestionEditor extends Component{
                 renderOperation={this.renderOperation}
                 questionList={this.state.questionList}
                 loading={this.state.loading}
+                types={this.state.types}
             />
         )
     }

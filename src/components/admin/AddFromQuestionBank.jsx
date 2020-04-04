@@ -8,21 +8,20 @@ export default class AddFromQuestionBank extends Component{
 
     renderOperation = (text) =>{
         return (
-            <Button size="small" type={'primary'} onClick={() => this.handle(text,this.props.id)}>
+            <Button size="small" type={'primary'} onClick={() => this.props.handle(text)}>
                 添加
             </Button>
         )
 
     }
-    handle = (text,id) =>{
 
-    }
     render() {
         return(
             <QuestionTable
                 renderOperation={this.renderOperation}
                 questionList={this.props.questionList}
                 loading={this.props.loading}
+                types={this.props.types}
             />
         )
     }

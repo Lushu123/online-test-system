@@ -5,7 +5,7 @@ import AddNewQuestionToTestPaper from "../../components/admin/AddNewQuestionToTe
 import AddFromQuestionBank from "../../components/admin/AddFromQuestionBank"
 import DeleteQuestionFormTestPaper from "../../components/admin/DeleteQuestionFormTestPaper"
 import cookie from "js-cookie"
-import {getQuestionsNotInTestPaperId,getQuestionsByTestPaperId} from "../../api"
+import {getQuestionsNotInTestPaperId,getQuestionsByTestPaperId,deleteFromTestPaper,addQuestionToTestPaperFromBank} from "../../api"
 import QuestionTable from "../../components/admin/QuestionTable"
 const { TabPane } = Tabs;
 export default class TestPaperQuestionEditor extends Component{
@@ -14,22 +14,25 @@ export default class TestPaperQuestionEditor extends Component{
         this.state = {
             notAddQuestionList:[],
             questionList:[],
+            types:[],
             addLoading:false,
             deleteLoading:false,
         }
     }
     tabChange = (activeKey) => {
         const testPaperId = this.props.match.params.id
+        const userId = cookie.get('userid')
         if(activeKey === '3'){
             this.setState({
                 addLoading:true
             })
-            getQuestionsNotInTestPaperId({testPaperId})
+            getQuestionsNotInTestPaperId({testPaperId,userId})
                 .then(res => {
                     const data = res.data
                     console.log(data)
                     this.setState({
                         notAddQuestionList:data.questionList,
+                        types:data.types,
                          addLoading:false
                     })
 
@@ -48,6 +51,7 @@ export default class TestPaperQuestionEditor extends Component{
                     console.log(data)
                     this.setState({
                         questionList:data.questionList,
+                        types:data.types,
                         deleteLoading:false
                     })
 
@@ -59,7 +63,49 @@ export default class TestPaperQuestionEditor extends Component{
         }
 
     }
+    handleAdd = (text) =>{
+        const testPaperId = this.props.match.params.id
+        const questionId = text.key
+        this.setState({
+            addLoading:true
+        })
+        addQuestionToTestPaperFromBank({testPaperQuestion:{testPaperId,questionId},userId:cookie.get("userid")})
+            .then(res => {
+                const data = res.data
+                console.log(data)
+                this.setState({
+                    notAddQuestionList:data.questionList,
+                    types:data.types,
+                    addLoading:false
+                })
+            })
+            .catch(function (error) {
+                console.log(error);
+                console.log("系统错误！")
+            })
+    }
+    handleDelete = (text) =>{
+        const testPaperId = this.props.match.params.id
+        const questionId = text.key
+        this.setState({
+            deleteLoading:true
+        })
+        deleteFromTestPaper({testPaperId,questionId})
+            .then(res => {
+                const data = res.data
+                console.log(data)
+                this.setState({
+                    questionList:data.questionList,
+                    types:data.types,
+                    deleteLoading:false
+                })
 
+            })
+            .catch(function (error) {
+                console.log(error);
+                console.log("系统错误！")
+            })
+    }
     render() {
         const {title,id} = this.props.match.params
 
@@ -77,13 +123,19 @@ export default class TestPaperQuestionEditor extends Component{
                     <DeleteQuestionFormTestPaper
                         id={id}
                         questionList={this.state.questionList}
-                        loading={this.state.deleteLoading}/>
+                        loading={this.state.deleteLoading}
+                        handle={this.handleDelete}
+                        types={this.state.types}
+                    />
                 </TabPane>
                 <TabPane tab="添加已有考题" key="3">
                     <AddFromQuestionBank
                         id={id}
                         questionList={this.state.notAddQuestionList}
-                        loading={this.state.addLoading}/>
+                        loading={this.state.addLoading}
+                        handle={this.handleAdd}
+                        types={this.state.types}
+                    />
                 </TabPane>
 
             </Tabs>

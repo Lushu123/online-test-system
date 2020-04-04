@@ -1,69 +1,89 @@
 import React,{Component} from 'react'
-import {Button, Table} from "antd"
+import {Button, Icon, Input, Table} from "antd"
 import Answers from "./Answers"
 import PropTypes from 'prop-types'
-import {getQuestions} from '../../api/index'
+import getColumnSearchProps from '../../utils/getColumnSearchProps'
 import '../style/testPaperEditorPanel.css'
-import cookie from "js-cookie"
-const data = [];
-for (let i = 0; i < 100; i++) {
-    data.push({
-        key: i,
-        questionName: `在创建对象时必须（）${i}`,
-        answers:{
-            answerA: `先声明对象，然后才能使用对象${i}`,
-            answerB: `先声明对象，为对象分配内存空间，然后才能使用对象${i}`,
-            answerC: `先声明对象，为对象分配内存空间，对对象初始化，然后才能使用对象${i}`,
-            answerD: `上述说法都对 ${i}`,
-        },
-        realAnswer: `D`,
-        score:2,
-        type:'选择题',
-        knowledgeCategory:'JAVA',
-    });
-}
+
+
 
 export default class QuestionTable extends Component{
 
     constructor(props){
         super(props)
-        this.columns = [
-            {
-                title: '题干',
-                dataIndex: 'questionStem',
-                key: 'questionStem',
-                align:'center',
-            },
-            {
-                title: '正确答案',
-                dataIndex: 'realAnswer',
-                key: 'realAnswer',
-                align:'center',
-            },
-            {
-                title: '分值',
-                key: 'score',
-                dataIndex: 'score',
-                align:'center',
-            },
-            {
-                title: '类型',
-                key: 'type',
-                dataIndex: 'type',
-                align:'center',
-            },
-            {
-                title: '操作',
-                key: 'operation',
-                align:'center',
-                render: props.renderOperation,
-            }
-        ];
+        this.state = {
+            searchText: '',
+            searchedColumn: '',
+        }
     }
     static propTypes = {
         questionList:PropTypes.array.isRequired
     }
+    getColumns = () =>  [
+        {
+            title: '题干',
+            dataIndex: 'questionStem',
+            key: 'questionStem',
+            align:'center',
+            ...getColumnSearchProps('questionStem',this),
+        },
+        {
+            title: '正确答案',
+            dataIndex: 'realAnswer',
+            key: 'realAnswer',
+            align:'center',
+            filters:[
+                {
+                    text: 'A',
+                    value: 'A',
+                },
+                {
+                    text: 'B',
+                    value: 'B',
+                },
+                {
+                    text: 'C',
+                    value: 'C',
+                },
+                {
+                    text: 'D',
+                    value: 'D',
+                },
+            ],
+            onFilter: (value, record) => record.realAnswer.indexOf(value) === 0,
+        },
+        {
+            title: '分值',
+            key: 'score',
+            dataIndex: 'score',
+            align:'center',
+            sorter: (a, b) => a.score - b.score,
+        },
+        {
+            title: '类型',
+            key: 'type',
+            dataIndex: 'type',
+            align:'center',
+            filters:this.getTypes(),
+            onFilter: (value, record) => record.type.indexOf(value) === 0,
+        },
+        {
+            title: '操作',
+            key: 'operation',
+            align:'center',
+            render: this.props.renderOperation,
+        }
+    ]
+    getTypes = () => {
+        return this.props.types.map(item => (
+                {
+                    text: item.toUpperCase(),
+                    value: item,
+                }
+            )
+        );
 
+    }
     render() {
         const {questionList,loading} = this.props
         return(
@@ -71,7 +91,7 @@ export default class QuestionTable extends Component{
                 <Table
                     loading={loading}
                     className={'test-paper-editor-table'}
-                    columns={this.columns}
+                    columns={this.getColumns()}
                     dataSource={questionList}
                     pagination={{ pageSize:10 }}
                     scroll={{ y: 370 }}

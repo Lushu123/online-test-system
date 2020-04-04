@@ -8,13 +8,10 @@ export default class DeleteQuestionFormTestPaper extends Component{
 
     renderOperation = (text) =>{
         return (
-            <Button size="small" type={'danger'} onClick={() => this.handle(text,this.props.id)}>
+            <Button size="small" type={'danger'} onClick={() => this.props.handle(text)}>
                 删除
             </Button>
         )
-
-    }
-    handle = (text,id) =>{
 
     }
     render() {
@@ -23,6 +20,7 @@ export default class DeleteQuestionFormTestPaper extends Component{
                 renderOperation={this.renderOperation}
                 questionList={this.props.questionList}
                 loading={this.props.loading}
+                types={this.props.types}
             />
         )
     }

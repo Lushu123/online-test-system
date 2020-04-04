@@ -3,7 +3,7 @@ import {Table, Input, Button, Icon,Modal } from 'antd'
 import './style/testPaperEditor.css'
 import {getTestPapers,removeTestPaper,isRelease} from '../../api/index'
 import cookie from "js-cookie"
-
+import getColumnSearchProps from '../../utils/getColumnSearchProps'
 
 export default class TestPaperEditor extends Component{
     constructor(props){
@@ -14,7 +14,7 @@ export default class TestPaperEditor extends Component{
                 dataIndex: 'title',
                 key: 'title',
                 align:'center',
-                ...this.getColumnSearchProps('title'),
+                ...getColumnSearchProps('title',this),
             },
             {
                 title: '考试时间',
@@ -207,59 +207,7 @@ export default class TestPaperEditor extends Component{
             }
         });
     }
-    //自定义筛选考卷名
-    getColumnSearchProps = dataIndex => ({
-        filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
-            <div style={{ padding: 8 }}>
-                <Input
-                    ref={node => {
-                        this.searchInput = node;
-                    }}
-                    placeholder={`请输入考卷名称`}
-                    value={selectedKeys[0]}
-                    onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
-                    onPressEnter={() => this.handleSearch(selectedKeys, confirm, dataIndex)}
-                    style={{ width: 188, marginBottom: 8, display: 'block' }}
-                />
-                <Button
-                    type="primary"
-                    onClick={() => this.handleSearch(selectedKeys, confirm, dataIndex)}
-                    icon="search"
-                    size="small"
-                    style={{ width: 90, marginRight: 8 }}
-                >
-                    搜索
-                </Button>
-                <Button onClick={() => this.handleReset(clearFilters)} size="small" style={{ width: 90 }}>
-                    重置
-                </Button>
-            </div>
-        ),
-        filterIcon: filtered => (
-            <Icon type="search" style={{ color: filtered ? '#1890ff' : undefined }} />
-        ),
-        onFilter: (value, record) =>
-            record[dataIndex]
-                .toString()
-                .toLowerCase()
-                .includes(value.toLowerCase()),
-        onFilterDropdownVisibleChange: visible => {
-            if (visible) {
-                setTimeout(() => this.searchInput.select());
-            }
-        },
-    });
-    handleSearch = (selectedKeys, confirm, dataIndex) => {
-        confirm();
-        this.setState({
-            searchText: selectedKeys[0],
-            searchedColumn: dataIndex,
-        });
-    };
-    handleReset = clearFilters => {
-        clearFilters();
-        this.setState({ searchText: '' });
-    };
+
     render() {
         return(
             <>

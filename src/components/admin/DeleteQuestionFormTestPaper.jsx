@@ -21,6 +21,7 @@ export default class DeleteQuestionFormTestPaper extends Component{
                 questionList={this.props.questionList}
                 loading={this.props.loading}
                 types={this.props.types}
+                isShowHead={true}
             />
         )
     }

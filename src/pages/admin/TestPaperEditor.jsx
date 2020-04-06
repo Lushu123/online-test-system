@@ -137,14 +137,14 @@ export default class TestPaperEditor extends Component{
 
     addQuestion = (testPaper) =>{
         console.log(testPaper)
-        this.props.history.push({
+        this.props.history.replace({
             pathname: `/adminMain/test/testPaperQuestionEditor/${testPaper.title}/${testPaper.id}`,
         })
     }
-    updateTestPaper = (state) =>{
-        this.props.history.push({
-            pathname: `/adminMain/test/updateTestPaper`,
-            state
+    updateTestPaper = (testPaper) =>{
+        const testPaperJsonStr = JSON.stringify(testPaper)
+        this.props.history.replace({
+            pathname: `/adminMain/test/updateTestPaper/${testPaperJsonStr}`
         })
     }
     //是否发布考卷

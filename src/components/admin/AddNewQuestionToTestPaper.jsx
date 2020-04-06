@@ -6,10 +6,16 @@ import {addQuestionToTestPaper} from '../../api/index'
 import {notification} from "antd"
 
 export default class AddNewQuestionToTestPaper extends Component{
+    state = {
+        loading:false,
+    }
     handle = (question,form) => {
         const userId = cookie.get('userid')
         const testPaperId = this.props.id
         Object.assign(question,{userId})
+        this.setState({
+            loading:true
+        })
         addQuestionToTestPaper({question,testPaperId})
             .then((response) => {
                 let data = response.data;
@@ -32,7 +38,7 @@ export default class AddNewQuestionToTestPaper extends Component{
     render() {
 
         return(
-            <QuestionForm handle={this.handle}/>
+            <QuestionForm handle={this.handle} type={'add'} loading={this.state.loading}/>
         )
     }
 }

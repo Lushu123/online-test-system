@@ -1,9 +1,11 @@
 import React,{Component} from 'react'
 import { Calendar } from 'antd';
 import moment from 'moment';
+import {Route,Switch,Redirect} from 'react-router-dom'
 import 'moment/locale/zh-cn';
-
+import UserContext from "../../context/UserContext"
 export default class Home extends Component{
+    static contextType = UserContext;
     componentDidMount() {
 
     }
@@ -25,6 +27,10 @@ export default class Home extends Component{
         )
     }
     render() {
+        console.log(this.context)
+        if(this.context.permissions === 0){
+            return <Redirect to={'/'}/>
+        }
         return(
             <div style={{maxHeight:500,overflow:'auto'}}>
                 {/*<Calendar */}

@@ -3,10 +3,10 @@ import {Button, Icon, Input, Table} from "antd"
 import Answers from "./Answers"
 import PropTypes from 'prop-types'
 import getColumnSearchProps from '../../utils/getColumnSearchProps'
-import '../style/testPaperEditorPanel.css'
+import '../style/QuestionTable.css'
 
 
-
+const ButtonGroup = Button.Group;
 export default class QuestionTable extends Component{
 
     constructor(props){
@@ -85,16 +85,32 @@ export default class QuestionTable extends Component{
 
     }
     render() {
-        const {questionList,loading} = this.props
+        const {questionList,loading,isShowHead} = this.props
+        const questionNum = questionList.length
+        console.log(questionList)
+        const totalScore = questionList.reduce((totalScore,curScore) => totalScore+curScore.score,0 )
         return(
             <>
                 <Table
+                    title={isShowHead ? () => (
+                            <div style={{textAlign:"right",marginRight:8}}>
+                                <ButtonGroup style={{marginRight:5}}>
+                                    <Button type="primary" >总题数</Button>
+                                    <Button type="primary" disabled  style={{color:'black'}}>{questionNum}</Button>
+                                </ButtonGroup>
+                                <ButtonGroup>
+                                    <Button type="primary">总分数</Button>
+                                    <Button type="primary" disabled style={{color:'black'}}>{totalScore}</Button>
+                                </ButtonGroup>
+                            </div>
+                        )
+                        : null}
                     loading={loading}
                     className={'test-paper-editor-table'}
                     columns={this.getColumns()}
                     dataSource={questionList}
                     pagination={{ pageSize:10 }}
-                    scroll={{ y: 370 }}
+                    scroll={{ y: isShowHead ? 325 : 370 }}
                     expandedRowRender={record => <Answers answers={record.answers}/>}
                 />
             </>

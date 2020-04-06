@@ -9,6 +9,7 @@ import QuestionEditor from "./QuestionEditor"
 import TestPaperEditor from "./TestPaperEditor"
 import NewBreadcrumb from "../../components/NewBreadcrumb"
 import UpdateTestPaper from "./UpdateTestPaper"
+import UpdateQuestion from "./UpdateQuestion"
 import Home from "./Home"
 import './style/adminMain.css'
 import cookie from "js-cookie"
@@ -21,28 +22,29 @@ const navArr = [
         name:'考卷管理',
         key:'text',
         sunMenu:[
-            {key:'/adminMain/test/testPaperEditor',icon:'read',title:'考卷编辑'},
-            {key:'/adminMain/test/addTestPaper',icon:'solution',title:'新增考卷'},
+            {key:'/adminMain/test/testPaperEditor',icon:'edit',title:'考卷编辑'},
+            {key:'/adminMain/test/addTestPaper',icon:'plus',title:'新增考卷'},
          ]
     },
     {
         name:'题库管理',
         key:'question',
         sunMenu:[
-            {key:'/adminMain/question/questionEditor',icon:'search',title:'题目编辑'},
-            {key:'/adminMain/question/addQuestion',icon:'user',title:'新增考题'},
+            {key:'/adminMain/question/questionEditor',icon:'edit',title:'题目编辑'},
+            {key:'/adminMain/question/addQuestion',icon:'plus',title:'新增考题'},
         ]
     }
 
 ]
 const routerArr = [
+    {path:'/adminMain/home',component:Home},
     {path:'/adminMain/test/testPaperEditor',component:TestPaperEditor},
     {path:'/adminMain/test/addTestPaper',component:AddTestPaper},
-    {path:'/adminMain/test/updateTestPaper',component:UpdateTestPaper},
+    {path:'/adminMain/test/updateTestPaper/:testPaper',component:UpdateTestPaper},
     {path:'/adminMain/test/testPaperQuestionEditor/:title/:id',component:TestPaperQuestionEditor},
     {path:'/adminMain/question/questionEditor',component:QuestionEditor},
     {path:'/adminMain/question/addQuestion',component:AddQuestion},
-    {path:'/adminMain/home',component:Home},
+    {path:'/adminMain/question/updateQuestion/:question',component:UpdateQuestion},
 ]
 export default class AdminMain extends Component{
     static contextType = UserContext;
@@ -52,11 +54,9 @@ export default class AdminMain extends Component{
         mainWidth: 200
     };
 
-    componentDidMount() {
-        this.props.history.replace(this.state.current)
-        console.log(this.context)
-
-    }
+    // componentDidMount() {
+    //     this.props.history.replace(this.state.current)
+    // }
 
     handleClick = e => {
         console.log('click ', e);
@@ -76,9 +76,13 @@ export default class AdminMain extends Component{
     };
     logout = () => {
         cookie.remove('userid')
+        cookie.remove('certification')
         this.props.history.replace('/')
     }
     render() {
+        if(this.context.permissions === 0){
+            return <Redirect to={'/404'}/>
+        }
         const {current,mainWidth} = this.state
         const user = this.context
         return(
@@ -133,7 +137,7 @@ export default class AdminMain extends Component{
                                         key={subNav.key}
                                         title={
                                             <span>
-                                                <Icon type="mail" />
+                                                <Icon type="read" />
                                                 <span>{subNav.name}</span>
                                             </span>
                                         }>
@@ -168,6 +172,7 @@ export default class AdminMain extends Component{
                                     ))
                                 }
                             </Switch>
+                            <Redirect to={'/adminMain/home'}/>
                         </Content>
 
                         <Footer style={{ textAlign: 'center',padding:'10px 50px'}}

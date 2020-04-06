@@ -80,7 +80,8 @@ export default class QuestionEditor extends Component{
 
     }
     updateQuestion = (text) =>{
-        console.log(text)
+        const questionJsonStr = JSON.stringify(text)
+        this.props.history.replace(`/adminMain/question/updateQuestion/${questionJsonStr}`)
     }
     render() {
         return(

@@ -37,7 +37,7 @@ class AddTestPaper extends Component{
                     <Item label={'试卷名'} {...formItemLayout}>
                         {getFieldDecorator('title', {
                             rules: [{ required: true, message: '请输入试卷名！' }],
-                            initialValue:type === 'update' ? this.props.updateData.title : ''
+                            initialValue:type === 'update' ? this.props.updateData.title : null
                         })(
                             <Input
                                 placeholder="请输入试卷名"
@@ -55,7 +55,7 @@ class AddTestPaper extends Component{
                     <Item label={'考试时长'} {...formItemLayout}>
                         {getFieldDecorator('duration', {
                             rules: [{ required: true, message: '请输入考试时长！' }],
-                            initialValue:type === 'update' ? this.props.updateData.duration : ''
+                            initialValue:type === 'update' ? this.props.updateData.duration : null
                         })(
                             <Input
                                 placeholder="请输入考试时长"
@@ -65,7 +65,7 @@ class AddTestPaper extends Component{
                     <Item label={'总分数'} {...formItemLayout}>
                         {getFieldDecorator('totalScore', {
                             rules: [{ required: true, message: '请输入总分数！' }],
-                            initialValue:type === 'update' ? this.props.updateData.totalScore : ''
+                            initialValue:type === 'update' ? this.props.updateData.totalScore : null
                         })(
                             <Input
                                 placeholder="请输入总分数"
@@ -75,7 +75,7 @@ class AddTestPaper extends Component{
                     <Item label={'总题数'} {...formItemLayout}>
                         {getFieldDecorator('questionNum', {
                             rules: [{ required: true, message: '请输入总题数！' }],
-                            initialValue:type === 'update' ? this.props.updateData.questionNum : ''
+                            initialValue:type === 'update' ? this.props.updateData.questionNum : null
                         })(
                             <Input
                                 placeholder="请输入总题数"
@@ -84,7 +84,7 @@ class AddTestPaper extends Component{
                     </Item>
                     <Item label={'描述'} {...formItemLayout}>
                         {getFieldDecorator('describe', {
-                            initialValue:type === 'update' ? this.props.updateData.describe : ''
+                            initialValue:type === 'update' ? this.props.updateData.describe : null
                         })(
                             <Input.TextArea
                                 placeholder="描述内容"

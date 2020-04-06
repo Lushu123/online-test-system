@@ -41,7 +41,9 @@ class Login extends Component{
         const {loginSuccessData} = this.state
         if(loginSuccessData.code === 1){
             cookie.set('userid',loginSuccessData.user.id)
-            return <Redirect to={'/'} />
+            cookie.set('certification',JSON.stringify({a:loginSuccessData.user.account,t:loginSuccessData.user.password}))
+            return <Redirect to={'/'}/>
+
         }
         return(
             <FullScreenBG>

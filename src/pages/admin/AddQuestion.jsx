@@ -7,9 +7,15 @@ import {notification} from "antd"
 import cookie from "js-cookie"
 
 export default class AddQuestion extends Component{
+    state = {
+        loading:false,
+    }
     handle = (question,form) => {
         const userId = cookie.get('userid')
         Object.assign(question,{userId})
+        this.setState({
+            loading:true
+        })
         addQuestion(question)
             .then((response) => {
                 let data = response.data;
@@ -31,7 +37,7 @@ export default class AddQuestion extends Component{
     render() {
         return(
             <div style={{height:500,overflow:'auto'}}>
-                <QuestionForm handle={this.handle}/>
+                <QuestionForm handle={this.handle} type={'add'} loading={this.state.loading}/>
 
 
 

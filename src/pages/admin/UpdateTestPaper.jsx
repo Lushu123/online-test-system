@@ -13,7 +13,7 @@ export default class UpdateTestPaper extends Component{
         }
     }
     componentDidMount() {
-        const updateData = this.props.location.state
+        const updateData = JSON.parse(this.props.match.params.testPaper)
         updateData.date = moment(updateData.date)
         this.setState({
             updateData

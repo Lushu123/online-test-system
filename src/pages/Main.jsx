@@ -1,6 +1,6 @@
 import React,{Component} from 'react'
 import {Route,Switch,Redirect} from 'react-router-dom'
-import {autoLogin} from "../api"
+import {autoLogin, login} from "../api"
 import cookie from 'js-cookie'
 
 import './style/main.css'
@@ -8,6 +8,8 @@ import ExamineeMain from "./examinee/ExamineeMain"
 import AdminMain from "./admin/AdminMain"
 import UserContext from "../context/UserContext"
 import PubSub from 'pubsub-js'
+import {notification} from "antd"
+import NoMatch from "./NoMatch"
 
 export default class Main extends Component{
     state = {
@@ -15,26 +17,36 @@ export default class Main extends Component{
     };
     componentDidMount() {
         const userid = cookie.get('userid')
-        let _this = this
-        const {user} = this.state
-        if(userid && !user.id){
-            autoLogin({id:userid})
-                .then(function (response) {
-                    let data = response.data
-                    _this.setState({user:data})
-                })
-                .catch(function (error) {
-                    console.log(error);
-                    console.log("系统错误！")
-                });
+        let certification
+        if(cookie.get('certification')){
+            certification = JSON.parse(cookie.get('certification'))
+            console.log(certification)
+            const {user} = this.state
+            if(userid && !user.id){
+                autoLogin({account:certification.a,password:certification.t})
+                    .then( (response) =>{
+                        let data = response.data
+                        if(data.code === 1){
+                            this.setState({user:data.user})
+                            cookie.set('userid',data.user.id)
+                        }else {
+                            notification.error({message:'验证失败，请重新登陆！',duration:2})
+                        }
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                        console.log("系统错误！")
+                    });
+            }
         }
+
+
     }
 
     render() {
         const {user} = this.state
         delete user.password
-        const userid = cookie.get('userid')
-        if(!userid){
+        if(!cookie.get('userid') || !cookie.get('certification')){
             return <Redirect to={'/login'}/>
         }
         if(!user.id){
@@ -55,6 +67,8 @@ export default class Main extends Component{
                 <Switch>
                     <Route path='/examineeMain' component={ExamineeMain}/>
                     <Route path='/adminMain' component={AdminMain}/>
+                    <Route path="*" component={NoMatch} />
+                    <Redirect from='*' to='/404' />
                 </Switch>
             </UserContext.Provider>
 

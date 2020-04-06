@@ -8,7 +8,7 @@ import ScoreInquiry from "./ScoreInquiry"
 import JoinClass from "./JoinClass"
 import PersonalCenter from "./PersonalCenter"
 import ExaminationPage from "./ExaminationPage"
-
+import UserContext from "../../context/UserContext"
 import './style/examinee.css'
 import cookie from "js-cookie"
 
@@ -36,11 +36,10 @@ export default class ExamineeMain extends Component{
     state = {
         current: '/examineeMain/examinationPaperList',
     };
-
-    componentDidMount() {
-
-    }
-
+    static contextType = UserContext;
+    // componentDidMount() {
+    //     this.props.history.replace(this.state.current)
+    // }
     handleClick = e => {
         console.log('click ', e);
         this.props.history.replace(e.key)
@@ -49,6 +48,11 @@ export default class ExamineeMain extends Component{
         });
     };
     render() {
+        console.log(1)
+        if(this.context.permissions === 1){
+            console.log(2)
+            return <Redirect to={'/404'}/>
+        }
         const curPath = this.props.location.pathname
         return(
             <Layout>

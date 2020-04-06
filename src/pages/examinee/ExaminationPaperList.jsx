@@ -59,7 +59,7 @@ export default class ExaminationPaperList extends Component{
                                 extra={'班级'}
                             >
                                 <List.Item.Meta
-                                    title={<a onClick={() =>  this.props.history.replace('/examineeMain/examinationPage')}>{item.title}</a>}
+                                    title={<a onClick={() =>  this.props.history.push('/examineeMain/examinationPage')}>{item.title}</a>}
                                     description={item.description}
                                 />
 

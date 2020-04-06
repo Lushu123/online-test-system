@@ -4,7 +4,7 @@ import ajax from "./ajax"
 
 const register = (user) => ajax('/user/register',user,"POST")
 const login = (certification) => ajax('/user/login',certification,"POST")
-const autoLogin = (id) => ajax('/user/autoLogin',id)
+const autoLogin = (certification) => ajax('/user/autoLogin',certification,"POST")
 const getTestPapers = (userId) => ajax('/testPaper/getTestPapers',userId)
 const addTestPaper = (testPaperAndUserId) => ajax('/testPaper/addTestPaper',testPaperAndUserId,'POST')
 const removeTestPaper = (testPaperIdAndUserId) => ajax('/testPaper/removeTestPaper',testPaperIdAndUserId,'POST')
@@ -15,6 +15,7 @@ const addQuestionToTestPaper = (questionAndTestPaperId) => ajax('/question/addQu
 const addQuestionToTestPaperFromBank = (testPaperQuestionAndUserId) => ajax('/question/addQuestionToTestPaperFromBank',testPaperQuestionAndUserId,'POST')
 const deleteFromTestPaper = (testPaperQuestion) => ajax('/question/deleteFromTestPaper',testPaperQuestion,'POST')
 const deleteQuestion = (questionIdAndUserId) => ajax('/question/deleteQuestion',questionIdAndUserId)
+const updateQuestion = (question) => ajax('/question/updateQuestion',question,'POST')
 const getQuestions = (userId) => ajax('/question/getQuestions',userId)
 const getQuestionsByTestPaperId = (testPaperId) => ajax('/question/getQuestionsByTestPaperId',testPaperId)
 const getQuestionsNotInTestPaperId = (testPaperIdAndUserId) => ajax('/question/getQuestionsNotInTestPaperId',testPaperIdAndUserId)
@@ -41,5 +42,6 @@ export {
     addQuestionToTestPaperFromBank,
     deleteFromTestPaper,
     deleteQuestion,
+    updateQuestion
 }
 

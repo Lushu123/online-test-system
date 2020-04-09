@@ -19,7 +19,7 @@ const updateQuestion = (question) => ajax('/question/updateQuestion',question,'P
 const getQuestions = (userId) => ajax('/question/getQuestions',userId)
 const getQuestionsByTestPaperId = (testPaperId) => ajax('/question/getQuestionsByTestPaperId',testPaperId)
 const getQuestionsNotInTestPaperId = (testPaperIdAndUserId) => ajax('/question/getQuestionsNotInTestPaperId',testPaperIdAndUserId)
-
+const getTestPapersForExaminee = () => ajax('/testPaper/getTestPapersForExaminee')
 
 
 
@@ -42,6 +42,7 @@ export {
     addQuestionToTestPaperFromBank,
     deleteFromTestPaper,
     deleteQuestion,
-    updateQuestion
+    updateQuestion,
+    getTestPapersForExaminee
 }
 

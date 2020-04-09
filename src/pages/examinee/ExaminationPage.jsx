@@ -1,6 +1,6 @@
 import React,{Component} from 'react'
 import {Row,Col,List,Descriptions   } from 'antd'
-
+import {getQuestionsByTestPaperId} from "../../api"
 import InformationTip from "../../components/examinee/InformationTip"
 import ChoiceQuestion from "../../components/examinee/ChoiceQuestion"
 
@@ -25,8 +25,29 @@ for (let i = 0; i < data.length; i++) {
 }
 export default class ExaminationPage extends Component{
     state = {
-        isChoiceArr:isChoiceArr
+        isChoiceArr:isChoiceArr,
+        questionList:[],
+        testPaper:{},
     };
+    componentDidMount() {
+        const testPaperId = this.props.match.params.id
+        getQuestionsByTestPaperId({testPaperId})
+            .then(res => {
+                console.log(res.data)
+                let data = res.data
+                this.setState({
+                    questionList:data.questionList,
+                    testPaper:data.testPaper,
+                })
+            })
+            .catch(error => {
+                console.log(error)
+                console.log("系统错误！")
+            })
+
+    }
+
+
     onChange1 = e => {
         console.log('radio1 checked', e.target.value);
         this.setState(state => {
@@ -35,17 +56,17 @@ export default class ExaminationPage extends Component{
     };
 
     render() {
-        const {isChoiceArr} = this.state
+        const {isChoiceArr,questionList,testPaper} = this.state
         return(
             <div>
                 <Row>
                     <Col className={'test-paper-header'} span={18} offset={3}>
-                        <Descriptions title="高数考试">
-                            <Descriptions.Item label="考试时间">150分钟</Descriptions.Item>
-                            <Descriptions.Item label="总题数">150题</Descriptions.Item>
-                            <Descriptions.Item label="Live">Hangzhou, Zhejiang</Descriptions.Item>
+                        <Descriptions title={testPaper.title}>
+                            <Descriptions.Item label="考试时间">{`${testPaper.duration}分钟`}</Descriptions.Item>
+                            <Descriptions.Item label="总题数">{`${testPaper.questionNum}题`}</Descriptions.Item>
+                            <Descriptions.Item label="总分数">{`${testPaper.totalScore}分`}</Descriptions.Item>
                             <Descriptions.Item label="描述" span={3}>
-                                JavaScript 是 Web 的编程语言。 所有现代的 HTML 页面都使用 JavaScript。 JavaScript 非常容易学。
+                                {testPaper.describe}
                             </Descriptions.Item>
                         </Descriptions>
                     </Col>
@@ -54,10 +75,11 @@ export default class ExaminationPage extends Component{
                     <Col span={12} offset={3}  className={'test-paper-content'}>
                         <List
                             size="large"
-                            dataSource={data}
+                            dataSource={questionList}
                             renderItem={(item,index) => (
                                 <ChoiceQuestion
-                                    key={index} question={item}
+                                    key={index}
+                                    question={item}
                                     questionNumber={index+1}
                                     changeHandel={this.onChange1}
                                 />

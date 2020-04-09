@@ -1,6 +1,6 @@
 import React,{Component} from 'react'
 import {Route,Switch,Redirect} from 'react-router-dom'
-import {autoLogin, login} from "../api"
+import {autoLogin} from "../api"
 import cookie from 'js-cookie'
 
 import './style/main.css'

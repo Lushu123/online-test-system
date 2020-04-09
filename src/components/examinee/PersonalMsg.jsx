@@ -6,10 +6,10 @@ const { Meta } = Card;
 export default class PersonalMsg extends Component{
     logout = () => {
         cookie.remove('userid')
+        cookie.remove('certification')
         this.props.history.replace('/')
     }
     render() {
-        console.log(  this.props)
         return(
                 <Card
                     cover={

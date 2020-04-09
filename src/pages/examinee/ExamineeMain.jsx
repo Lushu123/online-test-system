@@ -30,33 +30,31 @@ const routerArr = [
     {path:'/examineeMain/scoreInquiry',component:ScoreInquiry},
     {path:'/examineeMain/joinClass',component:JoinClass},
     {path:'/examineeMain/personalCenter',component:PersonalCenter},
-    {path:'/examineeMain/examinationPage',component:ExaminationPage},
+    {path:'/examineeMain/examinationPage/:id',component:ExaminationPage},
 ]
 export default class ExamineeMain extends Component{
     state = {
         current: '/examineeMain/examinationPaperList',
+        isHide:false,
     };
     static contextType = UserContext;
     // componentDidMount() {
     //     this.props.history.replace(this.state.current)
     // }
     handleClick = e => {
-        console.log('click ', e);
         this.props.history.replace(e.key)
         this.setState({
             current: e.key,
         });
     };
     render() {
-        console.log(1)
         if(this.context.permissions === 1){
-            console.log(2)
             return <Redirect to={'/404'}/>
         }
         const curPath = this.props.location.pathname
         return(
             <Layout>
-                {curPath !== EXAMINATION_PAGE ?
+                {!curPath.match(/^\/examineeMain\/examinationPage\/\d+/)  ?
                     <Menu style={{ position: 'fixed', top: 0,left:0,right:0,zIndex:10,paddingLeft:'10%' }}
                           onClick={this.handleClick}
                           selectedKeys={[this.state.current]}
@@ -83,9 +81,9 @@ export default class ExamineeMain extends Component{
                     <Redirect to={'/examineeMain/examinationPaperList'}/>
                 </Switch>
                 {
-                    curPath !== EXAMINATION_PAGE ?
+                    !curPath.match(/^\/examineeMain\/examinationPage\/\d+/) ?
                         <Footer style={{ textAlign: 'center',backgroundColor:'white',marginTop:40}}
-                                className={'footer'}>Ant Design ©2018 Created by Ant UED
+                                className={'footer'}>  Online Test System ©2020 Created by QingYuanO
                         </Footer>
                         :null
                 }

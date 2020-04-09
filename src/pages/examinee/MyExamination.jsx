@@ -27,7 +27,7 @@ export default class MyExamination extends Component{
         return(
             <Layout className={'main-layout'} style={{marginTop:87}}>
                 <Sider style={{backgroundColor:'#F0F2F5'}} width={350} className={'main-layout-sider'}>
-                    <PersonalMsg/>
+                    <PersonalMsg {...this.props}/>
                 </Sider>
                 <Content style={{backgroundColor:'white',padding:20,paddingTop:0}}>
                     <List

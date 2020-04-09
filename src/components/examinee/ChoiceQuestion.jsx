@@ -18,7 +18,7 @@ export default class ChoiceQuestion extends Component{
                 title={
                     <div style={{position:'relative'}} id={question.name}>
                         <span className={'question-number'}>{questionNumber}</span>
-                        <span >{question.title}</span>
+                        <span >{question.questionStem}</span>
                     </div>
 
                 }
@@ -26,8 +26,8 @@ export default class ChoiceQuestion extends Component{
             >
                 <Radio.Group
                     style={{display:'flex',flexDirection:'column'}}
-                    name={question.name}
-                    options={question.options}
+                    name={question.key}
+                    options={question.answers}
                     onChange={changeHandel}
                 />
             </Card>

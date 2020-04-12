@@ -16,7 +16,7 @@ export default class ChoiceQuestion extends Component{
             <Card
                 className={'choice-question'}
                 title={
-                    <div style={{position:'relative'}} id={question.name}>
+                    <div style={{position:'relative'}} id={question.key}>
                         <span className={'question-number'}>{questionNumber}</span>
                         <span >{question.questionStem}</span>
                     </div>
@@ -26,10 +26,14 @@ export default class ChoiceQuestion extends Component{
             >
                 <Radio.Group
                     style={{display:'flex',flexDirection:'column'}}
-                    name={question.key}
-                    options={question.answers}
+                    name={`${question.key}`}
                     onChange={changeHandel}
-                />
+                >
+                    <Radio value="A">{question.answers.answerA}</Radio>
+                    <Radio value="B">{question.answers.answerB}</Radio>
+                    <Radio value="C">{question.answers.answerC}</Radio>
+                    <Radio value="D">{question.answers.answerD}</Radio>
+                </Radio.Group>
             </Card>
         )
     }

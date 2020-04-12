@@ -18,11 +18,9 @@ class Login extends Component{
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 console.log('参数: ', values);
-
                 login(values)
                     .then((response) => {
                         let data = response.data
-                        console.log(response);
                         _this.setState({loginSuccessData:data})
                         if(data.code === 0){
                             notification.error({message:data.msg,description:'请确认账号和密码！',duration:2})

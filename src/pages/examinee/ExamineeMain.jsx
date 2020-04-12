@@ -15,13 +15,12 @@ import cookie from "js-cookie"
 const { Item  } = Menu;
 const { Footer } = Layout;
 const { Search } = Input;
-const EXAMINATION_PAGE = '/examineeMain/examinationPage'
 
 const navArr = [
     {key:'/examineeMain/examinationPaperList',icon:'read',title:'全部考试'},
-    {key:'/examineeMain/myExamination',icon:'solution',title:'我的考试'},
-    {key:'/examineeMain/scoreInquiry',icon:'search',title:'成绩查询'},
-    {key:'/examineeMain/joinClass',icon:'plus-circle',title:'加入班级'},
+    {key:'/examineeMain/myExamination',icon:'solution',title:'已考考试'},
+    // {key:'/examineeMain/scoreInquiry',icon:'search',title:'成绩查询'},
+    // {key:'/examineeMain/joinClass',icon:'plus-circle',title:'加入班级'},
     {key:'/examineeMain/personalCenter',icon:'user',title:'个人中心'},
 ]
 const routerArr = [
@@ -39,8 +38,14 @@ export default class ExamineeMain extends Component{
     };
     static contextType = UserContext;
     // componentDidMount() {
-    //     this.props.history.replace(this.state.current)
+    //     console.log(555)
     // }
+    componentWillUnmount() {
+        this.setState(state => {
+            return
+        })
+    }
+
     handleClick = e => {
         this.props.history.replace(e.key)
         this.setState({
@@ -78,8 +83,9 @@ export default class ExamineeMain extends Component{
                             <Route key={router.path} path={router.path} component={router.component}/>
                         ))
                     }
-                    <Redirect to={'/examineeMain/examinationPaperList'}/>
+
                 </Switch>
+                <Redirect to={'/examineeMain/examinationPaperList'}/>
                 {
                     !curPath.match(/^\/examineeMain\/examinationPage\/\d+/) ?
                         <Footer style={{ textAlign: 'center',backgroundColor:'white',marginTop:40}}

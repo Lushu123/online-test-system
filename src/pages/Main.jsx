@@ -20,7 +20,6 @@ export default class Main extends Component{
         let certification
         if(cookie.get('certification')){
             certification = JSON.parse(cookie.get('certification'))
-            console.log(certification)
             const {user} = this.state
             if(userid && !user.id){
                 autoLogin({account:certification.a,password:certification.t})
@@ -57,7 +56,6 @@ export default class Main extends Component{
                     console.log('a')
                     return <Redirect to={'/adminMain'}/>
                 }else {
-                    console.log(1)
                     return <Redirect to={'/examineeMain'}/>
                 }
             }

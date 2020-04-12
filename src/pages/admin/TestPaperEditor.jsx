@@ -1,7 +1,7 @@
 import React,{Component} from 'react'
 import {Table, Input, Button, Icon,Modal } from 'antd'
 import './style/testPaperEditor.css'
-import {getTestPapers,removeTestPaper,isRelease} from '../../api/index'
+import {getTestPapersForAdmin,removeTestPaper,isRelease} from '../../api/index'
 import cookie from "js-cookie"
 import getColumnSearchProps from '../../utils/getColumnSearchProps'
 
@@ -112,7 +112,7 @@ export default class TestPaperEditor extends Component{
     }
     componentDidMount() {
         const userId = cookie.get('userid')
-        getTestPapers({userId}).then(res=> {
+        getTestPapersForAdmin({userId}).then(res=> {
             const data = res.data
             const testPaperList = JSON.parse(JSON.stringify(data.testPaperList).replace(/id/g,"key"));
             const userId = data.userId;

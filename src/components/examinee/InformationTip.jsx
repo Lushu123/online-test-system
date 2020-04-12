@@ -1,6 +1,7 @@
 import React,{Component} from 'react'
 import PropTypes from 'prop-types'
 import {Anchor , Card, Icon} from "antd"
+import moment from "moment"
 
 import '../style/InformationTip.css'
 
@@ -12,10 +13,14 @@ const gridStyle = {
 };
 export default class InformationTip extends Component{
     static propTypes = {
-        isChoiceArr:PropTypes.object.isRequired
+        isChoiceArr:PropTypes.object.isRequired,
+        handInPaper:PropTypes.func.isRequired,
+        duration:PropTypes.string.isRequired,
     }
+
     render() {
-        const {isChoiceArr} = this.props
+
+        const {isChoiceArr,handInPaper,duration} = this.props
         return(
             <Anchor  className={'information-tip'} showInkInFixed={false}>
                 <Card
@@ -23,10 +28,10 @@ export default class InformationTip extends Component{
                     bordered={false}
                     actions={[
                         <span>
-                        <Icon type="dashboard" style={{marginRight:8}}/>
-                            {'150:00'}
-                    </span>,
-                        '提交',
+                            <Icon type="clock-circle" style={{marginRight:8}}/>
+                            {duration}
+                        </span>,
+                        <span onClick={handInPaper}>提交</span>,
                     ]}
                     bodyStyle={{height:272,overflow:'auto'}}
                 >

@@ -1,16 +1,19 @@
 import React,{Component} from 'react'
-import {Layout, Icon, List, Input,Spin} from "antd"
-import {getTestPapersForExaminee} from "../../api"
+import {Layout, Icon, List, Input,Spin,Tooltip} from "antd"
+import {getTestPaperNotTest} from "../../api"
 import PersonalMsg from "../../components/examinee/PersonalMsg"
-
+import moment from "moment"
+import cookie from "js-cookie"
 const { Content, Sider } = Layout;
 const { Search } = Input;
 
-const IconText = ({ type, text }) => (
+const IconText = ({ type, text,tooltipTitle }) => (
     <span>
-    <Icon type={type} style={{ marginRight: 8 }} />
-        {text}
-  </span>
+        <Tooltip title={tooltipTitle}>
+          <Icon type={type} style={{ marginRight: 8 }} />
+          {text}
+        </Tooltip>
+    </span>
 );
 export default class ExaminationPaperList extends Component{
     constructor(props){
@@ -24,7 +27,7 @@ export default class ExaminationPaperList extends Component{
         this.setState({
             loading:true
         })
-        getTestPapersForExaminee()
+        getTestPaperNotTest({userId:cookie.get('userid')})
             .then(res => {
                 let data = res.data;
                 console.log(data)
@@ -38,7 +41,18 @@ export default class ExaminationPaperList extends Component{
                 console.log('请求失败！')
             })
     }
+    componentWillUnmount() {
+        this.setState = (state, callback) => {
+            return
+        }
+    }
+    enterTest = (id) => {
+        console.log(id)
+        this.props.history.push(`/examineeMain/examinationPage/${id}`)
+    }
+    onSearch = (value) => {
 
+    }
     render() {
         const {testPaperList,loading} = this.state
         return(
@@ -53,8 +67,8 @@ export default class ExaminationPaperList extends Component{
                             size="large"
                             header={<Search
                                 className={'search'}
-                                placeholder="input search text"
-                                onSearch={value => console.log(value)}
+                                placeholder="输入考卷名查询"
+                                onSearch={this.onSearch}
                                 style={{ width: 200 }}
                             />}
                             pagination={{
@@ -68,13 +82,13 @@ export default class ExaminationPaperList extends Component{
                                 <List.Item
                                     key={item.id}
                                     actions={[
-                                        <IconText type="clock-circle" text={`${item.duration}分钟`} key="list-vertical-star-o" />,
-                                        <IconText type="smile" text={`${item.totalScore}分`} key="list-vertical-like-o" />,
-                                        <IconText type="calendar" text={item.date} key="list-vertical-message" />,
+                                        <IconText type="calendar" text={item.date} tooltipTitle={"考试日期"} key="list-vertical-message" />,
+                                        <IconText type="clock-circle" text={`${item.duration}分钟`} tooltipTitle={"考试时长"} key="list-vertical-star-o" />,
+                                        <IconText type="smile" text={`${item.totalScore}分`} tooltipTitle={"总分"} key="list-vertical-like-o" />,
                                     ]}
                                 >
                                     <List.Item.Meta
-                                        title={<a onClick={() =>  this.props.history.push(`/examineeMain/examinationPage/${item.id}`)}>{item.title}</a>}
+                                        title={<a onClick={() => this.enterTest(item.id) }>{item.title}</a>}
                                         description={item.description}
                                     />
 

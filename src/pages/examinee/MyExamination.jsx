@@ -1,5 +1,5 @@
 import React,{Component} from 'react'
-import {Layout, Icon, List, Input, Spin} from "antd"
+import {Layout, Icon, List, Input, Spin, Descriptions} from "antd"
 
 import PersonalMsg from "../../components/examinee/PersonalMsg"
 import {getTestPapersForExaminee} from "../../api"
@@ -23,10 +23,21 @@ export default class MyExamination extends Component{
         }
     }
     componentDidMount() {
+        this.getTestPapersForExamineeFun({userId:cookie.get('userid')})
+    }
+    componentWillUnmount() {
+        this.setState = (state, callback) => {
+            return
+        }
+    }
+    onSearch = (search) => {
+        this.getTestPapersForExamineeFun({userId:cookie.get('userid'),search:search.trim()})
+    }
+    getTestPapersForExamineeFun = ({userId,search=''}) => {
         this.setState({
             loading:true
         })
-        getTestPapersForExaminee({userId:cookie.get('userid')})
+        getTestPapersForExaminee({userId,search})
             .then(res => {
                 let data = res.data;
                 console.log(data)
@@ -40,15 +51,10 @@ export default class MyExamination extends Component{
                 console.log('请求失败！')
             })
     }
-    componentWillUnmount() {
-        this.setState = (state, callback) => {
-            return
-        }
-    }
     render() {
         const {testPaperList,loading} = this.state
         return(
-            <Layout className={'main-layout'} style={{marginTop:87}}>
+            <Layout className={'main-layout'} style={{marginTop:87,minHeight:500}}>
                 <Sider style={{backgroundColor:'#F0F2F5'}} width={350} className={'main-layout-sider'}>
                     <PersonalMsg {...this.props}/>
                 </Sider>
@@ -59,8 +65,8 @@ export default class MyExamination extends Component{
                             size="large"
                             header={<Search
                                 className={'search'}
-                                placeholder="input search text"
-                                onSearch={value => console.log(value)}
+                                placeholder="输入考卷名查询"
+                                onSearch={this.onSearch}
                                 style={{ width: 200 }}
                             />}
                             pagination={{
@@ -72,18 +78,12 @@ export default class MyExamination extends Component{
                             dataSource={testPaperList}
                             renderItem={item => (
                                 <List.Item
-                                    key={item.id}
-                                    actions={[
-                                        <IconText type="clock-circle" text={`${item.duration}分钟`} key="list-vertical-star-o" />,
-                                        <IconText type="smile" text={`${item.totalScore}分`} key="list-vertical-like-o" />,
-                                        <IconText type="calendar" text={item.date} key="list-vertical-message" />,
-                                    ]}
+                                    key={item.title}
                                 >
-                                    <List.Item.Meta
-                                        title={<a>{item.title}</a>}
-                                        description={item.description}
-                                    />
-
+                                    <Descriptions title={item.title}>
+                                        <Descriptions.Item label="总分">{item.totalScore}</Descriptions.Item>
+                                        <Descriptions.Item label="成绩">{item.score}</Descriptions.Item>
+                                    </Descriptions>
                                 </List.Item>
                             )}
                         />

@@ -21,7 +21,7 @@ const navArr = [
     {key:'/examineeMain/myExamination',icon:'solution',title:'已考考试'},
     // {key:'/examineeMain/scoreInquiry',icon:'search',title:'成绩查询'},
     // {key:'/examineeMain/joinClass',icon:'plus-circle',title:'加入班级'},
-    {key:'/examineeMain/personalCenter',icon:'user',title:'个人中心'},
+    // {key:'/examineeMain/personalCenter',icon:'user',title:'个人中心'},
 ]
 const routerArr = [
     {path:'/examineeMain/examinationPaperList',component:ExaminationPaperList},

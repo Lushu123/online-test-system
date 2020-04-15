@@ -97,7 +97,6 @@ export default class AdminMain extends Component{
                                 content={
                                     <div >
                                         <Button block type={'link'} onClick={this.logout}>注销账号</Button>
-                                        <Button block type={'link'}>个人中心</Button>
                                         <Button block type={'link'}>修改密码</Button>
                                     </div>
                                 }

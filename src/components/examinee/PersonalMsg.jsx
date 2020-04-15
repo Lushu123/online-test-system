@@ -1,9 +1,10 @@
 import React,{Component} from 'react'
-import {Card, Icon, Avatar} from "antd"
+import {Card, Icon, Avatar,Tooltip} from "antd"
 import cookie from "js-cookie"
-
+import UserContext from "../../context/UserContext"
 const { Meta } = Card;
 export default class PersonalMsg extends Component{
+    static contextType = UserContext;
     logout = () => {
         cookie.remove('userid')
         cookie.remove('certification')
@@ -19,15 +20,19 @@ export default class PersonalMsg extends Component{
                         />
                     }
                     actions={[
-                        <Icon type="edit" key="edit" />,
-                        <Icon type="logout" key="logout" onClick={this.logout}/>,
+                        <Tooltip title="修改密码">
+                            <Icon type="edit" key="edit" />
+                        </Tooltip>,
+                        <Tooltip title="退出账号">
+                            <Icon type="logout" key="logout" onClick={this.logout}/>
+                        </Tooltip>,
+
                     ]}
                     bordered={false}
                 >
                     <Meta
                         avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
-                        title="青园"
-                        description="大风起兮云飞扬，维加海内兮归故乡。安得猛士兮守四方"
+                        title={this.context.account}
                     />
                 </Card>
         )

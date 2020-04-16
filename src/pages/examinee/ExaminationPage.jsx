@@ -1,6 +1,7 @@
 import React,{Component} from 'react'
 import {Row, Col, List, Descriptions, Spin, Modal} from 'antd'
-import {getQuestionsByTestPaperId,handInTestPaper} from "../../api"
+import {Prompt} from 'react-router-dom'
+import {getQuestionsByTestPaperId, handInTestPaper, login} from "../../api"
 import InformationTip from "../../components/examinee/InformationTip"
 import ChoiceQuestion from "../../components/examinee/ChoiceQuestion"
 
@@ -76,27 +77,36 @@ export default class ExaminationPage extends Component{
         })
     };
     handInPaper = () =>{
-        const {answerList,questionList} = this.state
-        const totalScore = questionList.reduce((total,cur) => {
-            if(cur.realAnswer === answerList[cur.key]){
-                return total + cur.score
-            }else{
-                return total
+        Modal.confirm({
+            title: '请确认是否交卷？',
+            okText: '确认',
+            cancelText: '取消',
+            centered:true,
+            onOk: () => {
+                const {answerList,questionList} = this.state
+                const totalScore = questionList.reduce((total,cur) => {
+                    if(cur.realAnswer === answerList[cur.key]){
+                        return total + cur.score
+                    }else{
+                        return total
+                    }
+                },0);
+                const testPaperId = this.props.match.params.id
+                handInTestPaper({testPaperId,userId:cookie.get('userid'),totalScore}).then(res => {
+                    console.log(res.data)
+                }).catch(error => {
+                    console.log(error)
+                })
             }
-        },0);
-        const testPaperId = this.props.match.params.id
-        handInTestPaper({testPaperId,userId:cookie.get('userid'),totalScore}).then(res => {
-            console.log(res.data)
-        }).catch(error => {
-
-
         })
+
 
     }
     render() {
         const {isChoiceArr,questionList,testPaper,loading,duration} = this.state
         return(
             <Spin spinning={loading}>
+                {/*<Prompt message="退出后自动提交考试，确定要退出吗?" />*/}
                 <div>
                     <Row>
                         <Col className={'test-paper-header'} span={18} offset={3}>

@@ -27,10 +27,6 @@ export default class Home extends Component{
         )
     }
     render() {
-        console.log(this.context)
-        if(this.context.permissions === 0){
-            return <Redirect to={'/'}/>
-        }
         return(
             <div style={{maxHeight:500,overflow:'auto'}}>
                 {/*<Calendar */}

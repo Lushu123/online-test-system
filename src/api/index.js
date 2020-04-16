@@ -5,6 +5,7 @@ import ajax from "./ajax"
 const register = (user) => ajax('/user/register',user,"POST")
 const login = (certification) => ajax('/user/login',certification,"POST")
 const autoLogin = (certification) => ajax('/user/autoLogin',certification,"POST")
+const updatePsd = (data) => ajax('/user/updatePassword',data)
 //考卷有关api
 const getTestPapersForAdmin = (userId) => ajax('/testPaper/getTestPapersForAdmin',userId)
 const getTestPapersForExaminee = (userIdAanSearch) => ajax('/testPaper/getTestPapersForExaminee',userIdAanSearch)
@@ -50,5 +51,6 @@ export {
     updateQuestion,
     getTestPaperNotTest,
     handInTestPaper,
+    updatePsd,
 }
 

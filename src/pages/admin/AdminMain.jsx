@@ -11,9 +11,11 @@ import NewBreadcrumb from "../../components/NewBreadcrumb"
 import UpdateTestPaper from "./UpdateTestPaper"
 import UpdateQuestion from "./UpdateQuestion"
 import Home from "./Home"
+import UpdatePsdModel from "../../components/UpdatePsdModel"
 import './style/adminMain.css'
 import cookie from "js-cookie"
 import UserContext from "../../context/UserContext"
+import PubSub from "pubsub-js"
 const { Item,SubMenu  } = Menu;
 const { Footer,Sider,Content,Header } = Layout;
 
@@ -51,7 +53,8 @@ export default class AdminMain extends Component{
     state = {
         current: '/adminMain/home',
         collapsed: false,
-        mainWidth: 200
+        mainWidth: 200,
+        visible:false
     };
 
     // componentDidMount() {
@@ -87,6 +90,7 @@ export default class AdminMain extends Component{
         const user = this.context
         return(
             <Layout style={{ minHeight: '100vh' }}>
+                <UpdatePsdModel/>
                 <Header style={{color:'white',position:'fixed',top:0,left:0,right:0,zIndex:999}} >
                     <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
                         <span style={{fontWeight:'bold',fontSize:16}}>线上考试后台管理系统</span>
@@ -94,10 +98,16 @@ export default class AdminMain extends Component{
                             <Popover
                                 placement="bottomRight"
                                 title={<div style={{textAlign: 'center'}}>{user.account}</div>}
+                                visible={this.state.visible}
+                                onVisibleChange={(visible) => this.setState({visible})}
                                 content={
                                     <div >
                                         <Button block type={'link'} onClick={this.logout}>注销账号</Button>
-                                        <Button block type={'link'}>修改密码</Button>
+                                        <Button block type={'link'} onClick={() => {
+                                                PubSub.publish("model",true)
+                                                this.setState({visible:false})
+                                            }
+                                        }>修改密码</Button>
                                     </div>
                                 }
                                 trigger="click">

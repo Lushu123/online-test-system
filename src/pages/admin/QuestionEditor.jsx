@@ -1,8 +1,9 @@
 import React,{Component} from 'react'
 import QuestionTable from "../../components/admin/QuestionTable"
-import {Button, Modal} from "antd"
+import {Button, Modal,Upload,Icon,message} from "antd"
 import cookie from "js-cookie"
-import {getQuestions, deleteQuestion, removeTestPaper} from "../../api"
+import {getQuestions, deleteQuestion, addQuestionFromExcel} from "../../api"
+const ButtonGroup = Button.Group;
 
 export default class QuestionEditor extends Component{
     constructor(props){
@@ -37,6 +38,22 @@ export default class QuestionEditor extends Component{
 
         }
     }
+    uploadOption = () => ({
+        name: 'file',
+        action: '/question/addQuestionFromExcel',
+        data:{userId:cookie.get('userid')},
+        method:'post',
+        onChange(info) {
+            if (info.file.status !== 'uploading') {
+                console.log(info.file, info.fileList);
+            }
+            if (info.file.status === 'done') {
+                message.success(`${info.file.name} file uploaded successfully`);
+            } else if (info.file.status === 'error') {
+                message.error(`${info.file.name} file upload failed.`);
+            }
+        },
+    })
     renderOperation = (text) =>{
         return (
             <div>
@@ -90,6 +107,13 @@ export default class QuestionEditor extends Component{
                 questionList={this.state.questionList}
                 loading={this.state.loading}
                 types={this.state.types}
+                header={() => (
+                    <div style={{textAlign:"right",marginRight:8}}>
+                        <Upload {...this.uploadOption()}>
+                            <Button>选择文件</Button>
+                        </Upload>
+                    </div>
+                )}
             />
         )
     }

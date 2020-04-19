@@ -85,32 +85,17 @@ export default class QuestionTable extends Component{
 
     }
     render() {
-        const {questionList,loading,isShowHead} = this.props
-        const questionNum = questionList.length
-        console.log(questionList)
-        const totalScore = questionList.reduce((totalScore,curScore) => totalScore+curScore.score,0 )
+        const {questionList,loading,header} = this.props
         return(
             <>
                 <Table
-                    title={isShowHead ? () => (
-                            <div style={{textAlign:"right",marginRight:8}}>
-                                <ButtonGroup style={{marginRight:5}}>
-                                    <Button type="primary" >总题数</Button>
-                                    <Button type="primary" disabled  style={{color:'black'}}>{questionNum}</Button>
-                                </ButtonGroup>
-                                <ButtonGroup>
-                                    <Button type="primary">总分数</Button>
-                                    <Button type="primary" disabled style={{color:'black'}}>{totalScore}</Button>
-                                </ButtonGroup>
-                            </div>
-                        )
-                        : null}
+                    title={header ? header : null}
                     loading={loading}
                     className={'test-paper-editor-table'}
                     columns={this.getColumns()}
                     dataSource={questionList}
                     pagination={{ pageSize:10 }}
-                    scroll={{ y: isShowHead ? 325 : 370 }}
+                    scroll={{ y: header ? 325 : 370 }}
                     expandedRowRender={record => <Answers answers={record.answers}/>}
                 />
             </>

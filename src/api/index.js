@@ -18,6 +18,7 @@ const isRelease = (userTestPaperIdAndIsRelease) => ajax('/testPaper/isRelease',u
 //考题有关api
 const addQuestion = (question) => ajax('/question/addQuestion',question,'POST')
 const addQuestionToTestPaper = (questionAndTestPaperId) => ajax('/question/addQuestionToTestPaper',questionAndTestPaperId,'POST')
+const addQuestionFromExcel = (excelAndUserId) => ajax('/question/addQuestionFromExcel',excelAndUserId)
 const addQuestionToTestPaperFromBank = (testPaperQuestionAndUserId) => ajax('/question/addQuestionToTestPaperFromBank',testPaperQuestionAndUserId,'POST')
 const deleteFromTestPaper = (testPaperQuestion) => ajax('/question/deleteFromTestPaper',testPaperQuestion,'POST')
 const deleteQuestion = (questionIdAndUserId) => ajax('/question/deleteQuestion',questionIdAndUserId)
@@ -52,5 +53,6 @@ export {
     getTestPaperNotTest,
     handInTestPaper,
     updatePsd,
+    addQuestionFromExcel,
 }
 

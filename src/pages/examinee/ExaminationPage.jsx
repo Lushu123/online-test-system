@@ -14,8 +14,9 @@ export default class ExaminationPage extends Component{
         questionList:[],
         answerList:{},
         testPaper:{},
-        duration:0,
+        duration:1,
         loading:true,
+        isOpen:true,
     };
     componentDidMount() {
         const testPaperId = this.props.match.params.id
@@ -45,13 +46,16 @@ export default class ExaminationPage extends Component{
                     return {duration:state.duration-1}
                 })
             }else {
-                this.handInPaper()
+                this.setState({
+                    isOpen:false
+                })
+
                 Modal.info({
                     title: '考试已结束，自动交卷！',
                     okText: '确认',
                     centered:true,
                     onOk: () => {
-                        this.props.history.replace(`/examineeMain/examinationPageList`)
+                        this.handInTestPaperAjax()
                     }
                 });
                 console.log('考试结束')
@@ -60,6 +64,12 @@ export default class ExaminationPage extends Component{
 
         },1000)
 
+    }
+
+    componentWillUnmount() {
+        this.setState = (state, callback) => {
+            return
+        }
     }
 
     timeDownParse = (duration) => {
@@ -83,30 +93,46 @@ export default class ExaminationPage extends Component{
             cancelText: '取消',
             centered:true,
             onOk: () => {
-                const {answerList,questionList} = this.state
-                const totalScore = questionList.reduce((total,cur) => {
-                    if(cur.realAnswer === answerList[cur.key]){
-                        return total + cur.score
-                    }else{
-                        return total
-                    }
-                },0);
-                const testPaperId = this.props.match.params.id
-                handInTestPaper({testPaperId,userId:cookie.get('userid'),totalScore}).then(res => {
-                    console.log(res.data)
-                }).catch(error => {
-                    console.log(error)
+                this.setState({
+                    isOpen:false
                 })
+                this.handInTestPaperAjax()
             }
         })
-
-
+    }
+    handInTestPaperAjax = () => {
+        const {answerList,questionList} = this.state
+        const totalScore = questionList.reduce((total,cur) => {
+            if(cur.realAnswer === answerList[cur.key]){
+                return total + cur.score
+            }else{
+                return total
+            }
+        },0);
+        console.log(totalScore)
+        const testPaperId = this.props.match.params.id
+        handInTestPaper({testPaperId,userId:cookie.get('userid'),score:totalScore}).then(res => {
+            console.log(res.data)
+            if(res.data.code === 1){
+                this.props.history.replace(`/`)
+            }
+        }).catch(error => {
+            console.log(error)
+        })
     }
     render() {
-        const {isChoiceArr,questionList,testPaper,loading,duration} = this.state
+        const {isChoiceArr,questionList,testPaper,loading,duration,isOpen} = this.state
         return(
             <Spin spinning={loading}>
-                {/*<Prompt message="退出后自动提交考试，确定要退出吗?" />*/}
+                <Prompt message = {(location)=>{
+                        let leave = window.confirm("您确定要离开该页面吗?")
+                        if(leave) {
+                            this.handInTestPaperAjax()
+                            return true
+                        }else {
+                            return false
+                        }
+                }} when={isOpen}/>
                 <div>
                     <Row>
                         <Col className={'test-paper-header'} span={18} offset={3}>

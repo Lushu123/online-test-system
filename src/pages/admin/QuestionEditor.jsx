@@ -43,14 +43,31 @@ export default class QuestionEditor extends Component{
         action: '/question/addQuestionFromExcel',
         data:{userId:cookie.get('userid')},
         method:'post',
-        onChange(info) {
+        onChange:(info) => {
+            this.setState({
+                loading:true
+            })
             if (info.file.status !== 'uploading') {
+                this.setState({
+                    loading:false
+                })
                 console.log(info.file, info.fileList);
             }
             if (info.file.status === 'done') {
-                message.success(`${info.file.name} file uploaded successfully`);
+                console.log(info)
+                let fileListLength = info.fileList.length-1
+                let data = info.fileList[fileListLength].response
+                if(data.code === 1){
+                    this.setState({
+                        questionList:data.questionList,
+                        types:data.types,
+                        loading:false
+                    })
+                    message.success(`添加成功！`);
+                }
+
             } else if (info.file.status === 'error') {
-                message.error(`${info.file.name} file upload failed.`);
+                message.error(`添加失败！`);
             }
         },
     })
@@ -110,7 +127,7 @@ export default class QuestionEditor extends Component{
                 header={() => (
                     <div style={{textAlign:"right",marginRight:8}}>
                         <Upload {...this.uploadOption()}>
-                            <Button>选择文件</Button>
+                            <Button type={'primary'}>批量添加</Button>
                         </Upload>
                     </div>
                 )}

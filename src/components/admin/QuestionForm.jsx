@@ -23,6 +23,7 @@ class QuestionForm extends Component{
         e.preventDefault();
         this.props.form.validateFields((err, question) => {
             if (!err) {
+                question.type = question.type.toUpperCase()
                 this.props.handle(question,this.props.form)
             }
 

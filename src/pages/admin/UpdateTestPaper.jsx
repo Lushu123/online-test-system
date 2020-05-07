@@ -13,7 +13,8 @@ export default class UpdateTestPaper extends Component{
         }
     }
     componentDidMount() {
-        const updateData = JSON.parse(this.props.match.params.testPaper)
+        console.log(this.props)
+        const updateData = this.props.location.state
         updateData.date = moment(updateData.date)
         this.setState({
             updateData
@@ -50,9 +51,12 @@ export default class UpdateTestPaper extends Component{
             });
     };
     render() {
-
         return(
-               <TestPaperForm type={'update'} handle={this.handle} updateData={this.state.updateData} loading={this.state.loading}/>
+               <TestPaperForm
+                   type={'update'}
+                   handle={this.handle}
+                   updateData={this.state.updateData}
+                   loading={this.state.loading}/>
         )
     }
 }

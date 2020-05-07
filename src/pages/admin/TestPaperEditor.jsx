@@ -142,9 +142,9 @@ export default class TestPaperEditor extends Component{
         })
     }
     updateTestPaper = (testPaper) =>{
-        const testPaperJsonStr = JSON.stringify(testPaper)
         this.props.history.replace({
-            pathname: `/adminMain/test/updateTestPaper/${testPaperJsonStr}`
+            pathname: `/adminMain/test/updateTestPaper`,
+            state:testPaper
         })
     }
     //是否发布考卷

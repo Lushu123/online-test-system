@@ -42,7 +42,7 @@ const routerArr = [
     {path:'/adminMain/home',component:Home},
     {path:'/adminMain/test/testPaperEditor',component:TestPaperEditor},
     {path:'/adminMain/test/addTestPaper',component:AddTestPaper},
-    {path:'/adminMain/test/updateTestPaper/:testPaper',component:UpdateTestPaper},
+    {path:'/adminMain/test/updateTestPaper',component:UpdateTestPaper},
     {path:'/adminMain/test/testPaperQuestionEditor/:title/:id',component:TestPaperQuestionEditor},
     {path:'/adminMain/question/questionEditor',component:QuestionEditor},
     {path:'/adminMain/question/addQuestion',component:AddQuestion},

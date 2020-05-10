@@ -4,6 +4,7 @@ import './style/testPaperEditor.css'
 import {getTestPapersForAdmin,removeTestPaper,isRelease} from '../../api/index'
 import cookie from "js-cookie"
 import getColumnSearchProps from '../../utils/getColumnSearchProps'
+import moment from "moment"
 
 export default class TestPaperEditor extends Component{
     constructor(props){
@@ -21,6 +22,7 @@ export default class TestPaperEditor extends Component{
                 dataIndex: 'date',
                 key: 'date',
                 align:'center',
+                sorter: (a, b) => moment(a.date).diff(moment(b.date)),
             },
             {
                 title: '考试时长',

@@ -1,9 +1,11 @@
 import React,{Component} from 'react'
-import { Calendar } from 'antd';
+import { Typography  } from 'antd';
 import moment from 'moment';
 import {Route,Switch,Redirect} from 'react-router-dom'
 import 'moment/locale/zh-cn';
 import UserContext from "../../context/UserContext"
+
+const { Title } = Typography;
 export default class Home extends Component{
     static contextType = UserContext;
     componentDidMount() {
@@ -26,14 +28,11 @@ export default class Home extends Component{
             </div>
         )
     }
+
     render() {
         return(
             <div style={{maxHeight:500,overflow:'auto'}}>
-                {/*<Calendar */}
-                {/*    dateCellRender={this.dateCellRender}*/}
-                {/*    onPanelChange={this.onPanelChange}*/}
-                {/*    locale={moment.locale('zh-cn')}*/}
-                {/*/>*/}
+                <Title level={2} style={{marginTop:10,marginLeft:10}}>欢迎使用本系统</Title>
             </div>
         )
     }

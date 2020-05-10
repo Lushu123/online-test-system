@@ -17,7 +17,6 @@ class Login extends Component{
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                console.log('参数: ', values);
                 login(values)
                     .then((response) => {
                         let data = response.data

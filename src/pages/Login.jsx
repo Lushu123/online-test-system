@@ -74,9 +74,6 @@ class Login extends Component{
                                 登陆
                             </Button>
                             <a className="login-form-register" onClick={() => this.props.history.replace('/register')}>注册</a>
-                            <a className="login-form-forgot" href="">
-                                找回密码
-                            </a>
                         </Item>
                     </Form>
             </FullScreenBG>

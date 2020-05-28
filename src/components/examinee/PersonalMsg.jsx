@@ -4,6 +4,8 @@ import PubSub  from 'pubsub-js'
 import cookie from "js-cookie"
 import UserContext from "../../context/UserContext"
 import UpdatePsdModel from "../UpdatePsdModel"
+import coverImage from "../../assets/personalMsg/毕设1.png"
+import avatarImage from "../../assets/personalMsg/毕设2.png"
 
 const { Meta } = Card;
 export default class PersonalMsg extends Component{
@@ -20,7 +22,7 @@ export default class PersonalMsg extends Component{
                     cover={
                         <img
                             alt="example"
-                            src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
+                            src={coverImage}
                         />
                     }
                     actions={[
@@ -35,7 +37,7 @@ export default class PersonalMsg extends Component{
                     bordered={false}
                 >
                     <Meta
-                        avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
+                        avatar={<Avatar src={avatarImage} />}
                         title={this.context.account}
                     />
                 </Card>

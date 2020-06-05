@@ -12,6 +12,7 @@ class Register extends Component{
         code:0,
     };
     componentDidMount() {
+        console.log('55')
     }
 
     handleSubmit = e => {
